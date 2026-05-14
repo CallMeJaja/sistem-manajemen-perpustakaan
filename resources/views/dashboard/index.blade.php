@@ -1,100 +1,77 @@
 @extends('layouts.app')
 
 @section('title', 'Dashboard — Perpustakaan Digital')
+@section('page-title', 'Dashboard')
+@section('page-subtitle', 'Ringkasan data perpustakaan')
 
 @section('content')
-<div class="row mb-4">
-    <div class="col">
-        <h5 class="fw-bold mb-0">Dashboard</h5>
-        <p class="text-muted small mb-0">Ringkasan data perpustakaan</p>
-    </div>
-</div>
 
 {{-- Stat Cards --}}
 <div class="row g-3 mb-4">
     <div class="col-sm-6 col-xl-2">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-body d-flex align-items-center gap-3">
-                <div class="rounded-3 bg-primary bg-opacity-10 p-3 flex-shrink-0">
-                    <i class="bi bi-books text-primary fs-4"></i>
-                </div>
-                <div>
-                    <p class="text-muted small mb-0">Total Buku</p>
-                    <h4 class="fw-bold mb-0">{{ $stats['total_books'] }}</h4>
-                </div>
+        <div class="stat-card d-flex align-items-center gap-3">
+            <div class="stat-card-icon" style="background:#eff6ff;">
+                <i class="bi bi-books" style="color:#2563eb;"></i>
+            </div>
+            <div>
+                <div class="text-muted" style="font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;">Total Buku</div>
+                <div class="fw-bold" style="font-size:1.5rem;line-height:1.2;">{{ $stats['total_books'] }}</div>
             </div>
         </div>
     </div>
-
     <div class="col-sm-6 col-xl-2">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-body d-flex align-items-center gap-3">
-                <div class="rounded-3 bg-success bg-opacity-10 p-3 flex-shrink-0">
-                    <i class="bi bi-book text-success fs-4"></i>
-                </div>
-                <div>
-                    <p class="text-muted small mb-0">Tersedia</p>
-                    <h4 class="fw-bold mb-0">{{ $stats['available_books'] }}</h4>
-                </div>
+        <div class="stat-card d-flex align-items-center gap-3">
+            <div class="stat-card-icon" style="background:#f0fdf4;">
+                <i class="bi bi-book" style="color:#16a34a;"></i>
+            </div>
+            <div>
+                <div class="text-muted" style="font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;">Tersedia</div>
+                <div class="fw-bold" style="font-size:1.5rem;line-height:1.2;">{{ $stats['available_books'] }}</div>
             </div>
         </div>
     </div>
-
     <div class="col-sm-6 col-xl-2">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-body d-flex align-items-center gap-3">
-                <div class="rounded-3 bg-info bg-opacity-10 p-3 flex-shrink-0">
-                    <i class="bi bi-people text-info fs-4"></i>
-                </div>
-                <div>
-                    <p class="text-muted small mb-0">Anggota</p>
-                    <h4 class="fw-bold mb-0">{{ $stats['total_members'] }}</h4>
-                </div>
+        <div class="stat-card d-flex align-items-center gap-3">
+            <div class="stat-card-icon" style="background:#eff6ff;">
+                <i class="bi bi-people" style="color:#0284c7;"></i>
+            </div>
+            <div>
+                <div class="text-muted" style="font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;">Anggota</div>
+                <div class="fw-bold" style="font-size:1.5rem;line-height:1.2;">{{ $stats['total_members'] }}</div>
             </div>
         </div>
     </div>
-
     <div class="col-sm-6 col-xl-2">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-body d-flex align-items-center gap-3">
-                <div class="rounded-3 bg-warning bg-opacity-10 p-3 flex-shrink-0">
-                    <i class="bi bi-clock-history text-warning fs-4"></i>
-                </div>
-                <div>
-                    <p class="text-muted small mb-0">Dipinjam</p>
-                    <h4 class="fw-bold mb-0">{{ $stats['active_borrowings'] }}</h4>
-                </div>
+        <div class="stat-card d-flex align-items-center gap-3">
+            <div class="stat-card-icon" style="background:#fffbeb;">
+                <i class="bi bi-clock-history" style="color:#d97706;"></i>
+            </div>
+            <div>
+                <div class="text-muted" style="font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;">Dipinjam</div>
+                <div class="fw-bold" style="font-size:1.5rem;line-height:1.2;">{{ $stats['active_borrowings'] }}</div>
             </div>
         </div>
     </div>
-
     <div class="col-sm-6 col-xl-2">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-body d-flex align-items-center gap-3">
-                <div class="rounded-3 bg-secondary bg-opacity-10 p-3 flex-shrink-0">
-                    <i class="bi bi-check2-circle text-secondary fs-4"></i>
-                </div>
-                <div>
-                    <p class="text-muted small mb-0">Dikembalikan</p>
-                    <h4 class="fw-bold mb-0">{{ $stats['returned_borrowings'] }}</h4>
-                </div>
+        <div class="stat-card d-flex align-items-center gap-3">
+            <div class="stat-card-icon" style="background:#f0fdf4;">
+                <i class="bi bi-check2-circle" style="color:#16a34a;"></i>
+            </div>
+            <div>
+                <div class="text-muted" style="font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;">Kembali</div>
+                <div class="fw-bold" style="font-size:1.5rem;line-height:1.2;">{{ $stats['returned_borrowings'] }}</div>
             </div>
         </div>
     </div>
-
     <div class="col-sm-6 col-xl-2">
         <a href="{{ route('borrowings.index', ['status' => 'borrowed']) }}" class="text-decoration-none">
-            <div class="card border-0 shadow-sm h-100 {{ $stats['late_borrowings'] > 0 ? 'border-danger border' : '' }}">
-                <div class="card-body d-flex align-items-center gap-3">
-                    <div class="rounded-3 bg-danger bg-opacity-10 p-3 flex-shrink-0">
-                        <i class="bi bi-exclamation-triangle text-danger fs-4"></i>
-                    </div>
-                    <div>
-                        <p class="text-muted small mb-0">Terlambat</p>
-                        <h4 class="fw-bold mb-0 {{ $stats['late_borrowings'] > 0 ? 'text-danger' : '' }}">
-                            {{ $stats['late_borrowings'] }}
-                        </h4>
-                    </div>
+            <div class="stat-card d-flex align-items-center gap-3 {{ $stats['late_borrowings'] > 0 ? 'border-danger' : '' }}" style="{{ $stats['late_borrowings'] > 0 ? 'border-color:#ef4444!important;' : '' }}">
+                <div class="stat-card-icon" style="background:#fff1f2;">
+                    <i class="bi bi-exclamation-triangle" style="color:#dc2626;"></i>
+                </div>
+                <div>
+                    <div class="text-muted" style="font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;">Terlambat</div>
+                    <div class="fw-bold {{ $stats['late_borrowings'] > 0 ? 'text-danger' : '' }}" style="font-size:1.5rem;line-height:1.2;">{{ $stats['late_borrowings'] }}</div>
                 </div>
             </div>
         </a>
@@ -104,23 +81,25 @@
 {{-- Charts --}}
 <div class="row g-3 mb-4">
     <div class="col-lg-8">
-        <div class="card border-0 shadow-sm h-100">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span class="fw-semibold">Peminjaman 6 Bulan Terakhir</span>
+            </div>
             <div class="card-body">
-                <h6 class="fw-semibold mb-3">Peminjaman 6 Bulan Terakhir</h6>
                 <canvas id="borrowingChart" height="110"></canvas>
             </div>
         </div>
     </div>
     <div class="col-lg-4">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-body">
-                <h6 class="fw-semibold mb-3">Kategori Buku</h6>
+        <div class="card h-100">
+            <div class="card-header">
+                <span class="fw-semibold">Kategori Buku</span>
+            </div>
+            <div class="card-body d-flex align-items-center justify-content-center">
                 @if ($bookCategories->isNotEmpty())
-                    <canvas id="categoryChart" height="200"></canvas>
+                    <canvas id="categoryChart" height="220"></canvas>
                 @else
-                    <div class="d-flex align-items-center justify-content-center h-75 text-muted small">
-                        Belum ada data buku.
-                    </div>
+                    <p class="text-muted small mb-0">Belum ada data buku.</p>
                 @endif
             </div>
         </div>
@@ -130,83 +109,73 @@
 {{-- Tables --}}
 <div class="row g-3">
     <div class="col-lg-6">
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
                 <span class="fw-semibold">Transaksi Terbaru</span>
                 <a href="{{ route('borrowings.index') }}" class="btn btn-sm btn-outline-primary">Lihat Semua</a>
             </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0 small">
-                        <thead class="table-light">
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th class="ps-4">Anggota</th>
+                            <th>Buku</th>
+                            <th class="pe-4 text-center">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($recentBorrowings as $borrowing)
                             <tr>
-                                <th class="ps-3">Anggota</th>
-                                <th>Buku</th>
-                                <th class="pe-3 text-center">Status</th>
+                                <td class="ps-4">{{ $borrowing->member->name }}</td>
+                                <td class="text-truncate" style="max-width:150px">{{ $borrowing->book->title }}</td>
+                                <td class="pe-4 text-center">
+                                    @if ($borrowing->status === 'borrowed')
+                                        <span class="badge" style="background:#fffbeb;color:#92400e;">Dipinjam</span>
+                                    @else
+                                        <span class="badge" style="background:#f0fdf4;color:#166534;">Kembali</span>
+                                    @endif
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($recentBorrowings as $borrowing)
-                                <tr>
-                                    <td class="ps-3">{{ $borrowing->member->name }}</td>
-                                    <td class="text-truncate" style="max-width: 160px">{{ $borrowing->book->title }}</td>
-                                    <td class="pe-3 text-center">
-                                        @if ($borrowing->status === 'borrowed')
-                                            <span class="badge bg-warning-subtle text-warning-emphasis">Dipinjam</span>
-                                        @else
-                                            <span class="badge bg-success-subtle text-success-emphasis">Kembali</span>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="3" class="text-center py-4 text-muted">Belum ada transaksi.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
+                        @empty
+                            <tr><td colspan="3" class="text-center py-4 text-muted">Belum ada transaksi.</td></tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
     <div class="col-lg-6">
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
-                <span class="fw-semibold text-danger">
-                    <i class="bi bi-exclamation-triangle me-1"></i>Peminjaman Terlambat
-                </span>
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span class="fw-semibold" style="color:#dc2626;"><i class="bi bi-exclamation-triangle me-1"></i>Terlambat Kembali</span>
                 <a href="{{ route('borrowings.index', ['status' => 'borrowed']) }}" class="btn btn-sm btn-outline-danger">Lihat Semua</a>
             </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0 small">
-                        <thead class="table-light">
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th class="ps-4">Anggota</th>
+                            <th>Buku</th>
+                            <th class="pe-4 text-center">Batas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($lateBorrowings as $borrowing)
                             <tr>
-                                <th class="ps-3">Anggota</th>
-                                <th>Buku</th>
-                                <th class="pe-3 text-center">Batas</th>
+                                <td class="ps-4">{{ $borrowing->member->name }}</td>
+                                <td class="text-truncate" style="max-width:150px">{{ $borrowing->book->title }}</td>
+                                <td class="pe-4 text-center fw-semibold text-danger">{{ $borrowing->due_date->format('d/m/Y') }}</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($lateBorrowings as $borrowing)
-                                <tr class="table-danger-subtle">
-                                    <td class="ps-3">{{ $borrowing->member->name }}</td>
-                                    <td class="text-truncate" style="max-width: 160px">{{ $borrowing->book->title }}</td>
-                                    <td class="pe-3 text-center text-danger fw-medium">
-                                        {{ $borrowing->due_date->format('d/m/Y') }}
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="3" class="text-center py-4 text-muted">
-                                        <i class="bi bi-check-circle text-success me-1"></i>Tidak ada keterlambatan.
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="text-center py-4 text-muted">
+                                    <i class="bi bi-check-circle text-success me-1"></i>Tidak ada keterlambatan.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -216,54 +185,48 @@
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <script>
-    const borrowingCtx = document.getElementById('borrowingChart');
-    new Chart(borrowingCtx, {
+    Chart.defaults.font.family = 'Inter, sans-serif';
+    Chart.defaults.font.size = 12;
+
+    new Chart(document.getElementById('borrowingChart'), {
         type: 'bar',
         data: {
             labels: @json($months),
             datasets: [{
-                label: 'Jumlah Peminjaman',
+                label: 'Peminjaman',
                 data: @json($monthTotals),
-                backgroundColor: 'rgba(13, 110, 253, 0.15)',
-                borderColor: 'rgba(13, 110, 253, 0.8)',
+                backgroundColor: 'rgba(37,99,235,0.12)',
+                borderColor: '#2563eb',
                 borderWidth: 2,
                 borderRadius: 6,
+                borderSkipped: false,
             }]
         },
         options: {
             responsive: true,
             plugins: { legend: { display: false } },
             scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: { stepSize: 1 },
-                    grid: { color: 'rgba(0,0,0,0.05)' }
-                },
+                y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: 'rgba(0,0,0,0.04)' } },
                 x: { grid: { display: false } }
             }
         }
     });
 
     @if ($bookCategories->isNotEmpty())
-    const categoryCtx = document.getElementById('categoryChart');
-    new Chart(categoryCtx, {
+    new Chart(document.getElementById('categoryChart'), {
         type: 'doughnut',
         data: {
             labels: @json($bookCategories->pluck('category')),
             datasets: [{
                 data: @json($bookCategories->pluck('total')),
-                backgroundColor: [
-                    '#0d6efd', '#198754', '#ffc107', '#0dcaf0', '#dc3545', '#6c757d'
-                ],
-                borderWidth: 2,
+                backgroundColor: ['#2563eb','#16a34a','#d97706','#0284c7','#dc2626','#7c3aed'],
+                borderWidth: 3,
                 borderColor: '#fff',
             }]
         },
         options: {
-            responsive: true,
-            plugins: {
-                legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } }
-            }
+            cutout: '65%',
+            plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 12 } } }
         }
     });
     @endif

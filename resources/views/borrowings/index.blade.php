@@ -1,17 +1,16 @@
 @extends('layouts.app')
 
 @section('title', 'Transaksi Peminjaman — Perpustakaan Digital')
+@section('page-title', 'Transaksi Peminjaman')
+@section('page-subtitle', 'Riwayat seluruh transaksi peminjaman buku')
 
-@section('content')
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <div>
-        <h5 class="fw-bold mb-0">Transaksi Peminjaman</h5>
-        <p class="text-muted small mb-0">Riwayat seluruh transaksi peminjaman</p>
-    </div>
-    <a href="{{ route('borrowings.create') }}" class="btn btn-primary">
+@section('topbar-actions')
+    <a href="{{ route('borrowings.create') }}" class="btn btn-primary btn-sm">
         <i class="bi bi-plus-lg me-1"></i>Catat Peminjaman
     </a>
-</div>
+@endsection
+
+@section('content')
 
 <div class="card border-0 shadow-sm">
     <div class="card-body">

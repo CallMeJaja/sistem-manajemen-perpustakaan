@@ -1,17 +1,16 @@
 @extends('layouts.app')
 
 @section('title', 'Kelola Buku — Perpustakaan Digital')
+@section('page-title', 'Manajemen Buku')
+@section('page-subtitle', 'Kelola seluruh koleksi buku perpustakaan')
 
-@section('content')
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <div>
-        <h5 class="fw-bold mb-0">Manajemen Buku</h5>
-        <p class="text-muted small mb-0">Daftar seluruh koleksi buku perpustakaan</p>
-    </div>
-    <a href="{{ route('books.create') }}" class="btn btn-primary">
+@section('topbar-actions')
+    <a href="{{ route('books.create') }}" class="btn btn-primary btn-sm">
         <i class="bi bi-plus-lg me-1"></i>Tambah Buku
     </a>
-</div>
+@endsection
+
+@section('content')
 
 <div class="card border-0 shadow-sm">
     <div class="card-body">

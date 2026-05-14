@@ -1,17 +1,16 @@
 @extends('layouts.app')
 
 @section('title', 'Kelola Anggota — Perpustakaan Digital')
+@section('page-title', 'Manajemen Anggota')
+@section('page-subtitle', 'Kelola seluruh data anggota perpustakaan')
 
-@section('content')
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <div>
-        <h5 class="fw-bold mb-0">Manajemen Anggota</h5>
-        <p class="text-muted small mb-0">Daftar seluruh anggota perpustakaan</p>
-    </div>
-    <a href="{{ route('members.create') }}" class="btn btn-primary">
+@section('topbar-actions')
+    <a href="{{ route('members.create') }}" class="btn btn-primary btn-sm">
         <i class="bi bi-person-plus me-1"></i>Tambah Anggota
     </a>
-</div>
+@endsection
+
+@section('content')
 
 <div class="card border-0 shadow-sm">
     <div class="card-body">
