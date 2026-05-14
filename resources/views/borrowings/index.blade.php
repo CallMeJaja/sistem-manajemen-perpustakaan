@@ -77,14 +77,26 @@
                                 @endif
                             </td>
                             <td class="text-center">
-                                @if ($borrowing->status === 'borrowed')
-                                    <a href="{{ route('returns.create', $borrowing) }}"
-                                       class="btn btn-sm btn-outline-success" title="Proses Pengembalian">
-                                        <i class="bi bi-arrow-return-left"></i>
+                                <div class="btn-group-action">
+                                    <a href="{{ route('borrowings.print', $borrowing) }}" target="_blank"
+                                       class="btn btn-sm btn-outline-secondary" title="Cetak Struk">
+                                        <i class="bi bi-printer"></i>
                                     </a>
-                                @else
-                                    <span class="text-muted small">—</span>
-                                @endif
+                                    @if ($borrowing->status === 'borrowed')
+                                        <a href="{{ route('returns.create', $borrowing) }}"
+                                           class="btn btn-sm btn-outline-success" title="Proses Pengembalian">
+                                            <i class="bi bi-arrow-return-left"></i>
+                                        </a>
+                                    @endif
+                                    <form method="POST" action="{{ route('borrowings.destroy', $borrowing) }}"
+                                          onsubmit="return confirm('Hapus riwayat transaksi ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @empty

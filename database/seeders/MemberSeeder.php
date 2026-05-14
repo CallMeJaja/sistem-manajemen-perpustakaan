@@ -18,7 +18,7 @@ class MemberSeeder extends Seeder
                 'name'          => 'Al Amani Abas',
                 'email'         => 'al.amani.abas@email.com',
                 'phone'         => '081234500001',
-                'address'       => 'Jl. Merdeka No. 1, Purwakarta',
+                'address'       => 'Jl. Ipik Gandamanah No. X, Purwakarta',
                 'join_date'     => '2024-01-10',
             ],
             [
@@ -26,7 +26,7 @@ class MemberSeeder extends Seeder
                 'name'          => 'Dhafi Ebsan Yurizal',
                 'email'         => 'dhafi.ebsan.yurizal@email.com',
                 'phone'         => '081234500002',
-                'address'       => 'Jl. Pahlawan No. 2, Purwakarta',
+                'address'       => 'Jl. Ipik Gandamanah No. X, Purwakarta',
                 'join_date'     => '2024-01-12',
             ],
             [
@@ -34,7 +34,7 @@ class MemberSeeder extends Seeder
                 'name'          => 'Diva Oryza Sativa',
                 'email'         => 'diva.oryza.sativa@email.com',
                 'phone'         => '081234500003',
-                'address'       => 'Jl. Diponegoro No. 3, Purwakarta',
+                'address'       => 'Jl. Ipik Gandamanah No. X, Purwakarta',
                 'join_date'     => '2024-01-15',
             ],
             [
@@ -42,7 +42,7 @@ class MemberSeeder extends Seeder
                 'name'          => 'Dyan Putri Agustin',
                 'email'         => 'dyan.putri.agustin@email.com',
                 'phone'         => '081234500004',
-                'address'       => 'Jl. Sudirman No. 4, Purwakarta',
+                'address'       => 'Jl. Ipik Gandamanah No. X, Purwakarta',
                 'join_date'     => '2024-02-01',
             ],
             [
@@ -50,7 +50,7 @@ class MemberSeeder extends Seeder
                 'name'          => 'Fikri Ramdani',
                 'email'         => 'fikri.ramdani@email.com',
                 'phone'         => '081234500005',
-                'address'       => 'Jl. Gatot Subroto No. 5, Purwakarta',
+                'address'       => 'Jl. Ipik Gandamanah No. X, Purwakarta',
                 'join_date'     => '2024-02-05',
             ],
             [
@@ -58,7 +58,7 @@ class MemberSeeder extends Seeder
                 'name'          => 'Helgi Nur Allamsyah',
                 'email'         => 'helgi.nur.allamsyah@email.com',
                 'phone'         => '081234500006',
-                'address'       => 'Jl. Ahmad Yani No. 6, Purwakarta',
+                'address'       => 'Jl. Ipik Gandamanah No. X, Purwakarta',
                 'join_date'     => '2024-02-10',
             ],
             [
@@ -66,7 +66,7 @@ class MemberSeeder extends Seeder
                 'name'          => 'Intan Sri Dayanti',
                 'email'         => 'intan.sri.dayanti@email.com',
                 'phone'         => '081234500007',
-                'address'       => 'Jl. Veteran No. 7, Purwakarta',
+                'address'       => 'Jl. Ipik Gandamanah No. X, Purwakarta',
                 'join_date'     => '2024-02-15',
             ],
             [
@@ -74,7 +74,7 @@ class MemberSeeder extends Seeder
                 'name'          => 'Jerry Sutisno',
                 'email'         => 'jerry.sutisno@email.com',
                 'phone'         => '081234500008',
-                'address'       => 'Jl. Pemuda No. 8, Purwakarta',
+                'address'       => 'Jl. Ipik Gandamanah No. X, Purwakarta',
                 'join_date'     => '2024-03-01',
             ],
             [
@@ -82,7 +82,7 @@ class MemberSeeder extends Seeder
                 'name'          => 'Josh Winston Imanuel',
                 'email'         => 'josh.winston.imanuel@email.com',
                 'phone'         => '081234500009',
-                'address'       => 'Jl. Kartini No. 9, Purwakarta',
+                'address'       => 'Jl. Ipik Gandamanah No. X, Purwakarta',
                 'join_date'     => '2024-03-05',
             ],
             [
@@ -90,7 +90,7 @@ class MemberSeeder extends Seeder
                 'name'          => 'Keisya Febri Sabila',
                 'email'         => 'keisya.febri.sabila@email.com',
                 'phone'         => '081234500010',
-                'address'       => 'Jl. Rajawali No. 10, Purwakarta',
+                'address'       => 'Jl. Ipik Gandamanah No. X, Purwakarta',
                 'join_date'     => '2024-03-10',
             ],
             [
@@ -98,7 +98,7 @@ class MemberSeeder extends Seeder
                 'name'          => 'Khaikal Iksanuddin',
                 'email'         => 'khaikal.iksanuddin@email.com',
                 'phone'         => '081234500011',
-                'address'       => 'Jl. Cendrawasih No. 11, Purwakarta',
+                'address'       => 'Jl. Ipik Gandamanah No. X, Purwakarta',
                 'join_date'     => '2024-03-15',
             ],
             [
@@ -106,7 +106,7 @@ class MemberSeeder extends Seeder
                 'name'          => 'Kirana Larasati Dewi',
                 'email'         => 'kirana.larasati.dewi@email.com',
                 'phone'         => '081234500012',
-                'address'       => 'Jl. Anggrek No. 12, Purwakarta',
+                'address'       => 'Jl. Ipik Gandamanah No. X, Purwakarta',
                 'join_date'     => '2024-04-01',
             ],
             [
@@ -114,7 +114,7 @@ class MemberSeeder extends Seeder
                 'name'          => 'Muhamad Gilang Ramadan',
                 'email'         => 'muhamad.gilang.ramadan@email.com',
                 'phone'         => '081234500013',
-                'address'       => 'Jl. Melati No. 13, Purwakarta',
+                'address'       => 'Jl. Ipik Gandamanah No. X, Purwakarta',
                 'join_date'     => '2024-04-05',
             ],
             [
@@ -122,7 +122,7 @@ class MemberSeeder extends Seeder
                 'name'          => 'Muhamad Sarwan Al Barizy',
                 'email'         => 'muhamad.sarwan.al.barizy@email.com',
                 'phone'         => '081234500014',
-                'address'       => 'Jl. Mawar No. 14, Purwakarta',
+                'address'       => 'Jl. Ipik Gandamanah No. X, Purwakarta',
                 'join_date'     => '2024-04-10',
             ],
             [
@@ -130,7 +130,7 @@ class MemberSeeder extends Seeder
                 'name'          => 'Muhammad Apiransyah Ramdhani',
                 'email'         => 'muhammad.apiransyah.ramdhani@email.com',
                 'phone'         => '081234500015',
-                'address'       => 'Jl. Bougenville No. 15, Purwakarta',
+                'address'       => 'Jl. Ipik Gandamanah No. X, Purwakarta',
                 'join_date'     => '2024-04-15',
             ],
             [
@@ -138,7 +138,7 @@ class MemberSeeder extends Seeder
                 'name'          => 'Reza Asriano Maulana',
                 'email'         => 'reza.asriano.maulana@email.com',
                 'phone'         => '081234500016',
-                'address'       => 'Jl. Kenanga No. 16, Purwakarta',
+                'address'       => 'Jl. Ipik Gandamanah No. X, Purwakarta',
                 'join_date'     => '2024-05-01',
             ],
             [
@@ -146,7 +146,7 @@ class MemberSeeder extends Seeder
                 'name'          => 'Salman Alfaridzi',
                 'email'         => 'salman.alfaridzi@email.com',
                 'phone'         => '081234500017',
-                'address'       => 'Jl. Dahlia No. 17, Purwakarta',
+                'address'       => 'Jl. Ipik Gandamanah No. X, Purwakarta',
                 'join_date'     => '2024-05-05',
             ],
             [
@@ -154,7 +154,7 @@ class MemberSeeder extends Seeder
                 'name'          => 'Satrio Ilham Syahputra',
                 'email'         => 'satrio.ilham.syahputra@email.com',
                 'phone'         => '081234500018',
-                'address'       => 'Jl. Flamboyan No. 18, Purwakarta',
+                'address'       => 'Jl. Ipik Gandamanah No. X, Purwakarta',
                 'join_date'     => '2024-05-10',
             ],
             [
@@ -162,7 +162,7 @@ class MemberSeeder extends Seeder
                 'name'          => 'Shevadina Aulia Rahma',
                 'email'         => 'shevadina.aulia.rahma@email.com',
                 'phone'         => '081234500019',
-                'address'       => 'Jl. Seruni No. 19, Purwakarta',
+                'address'       => 'Jl. Ipik Gandamanah No. X, Purwakarta',
                 'join_date'     => '2024-06-01',
             ],
             [
@@ -170,7 +170,7 @@ class MemberSeeder extends Seeder
                 'name'          => 'Siti Fatimatuzzahro',
                 'email'         => 'siti.fatimatuzzahro@email.com',
                 'phone'         => '081234500020',
-                'address'       => 'Jl. Teratai No. 20, Purwakarta',
+                'address'       => 'Jl. Ipik Gandamanah No. X, Purwakarta',
                 'join_date'     => '2024-06-05',
             ],
             [
@@ -178,7 +178,7 @@ class MemberSeeder extends Seeder
                 'name'          => 'Siti Romlah',
                 'email'         => 'siti.romlah@email.com',
                 'phone'         => '081234500021',
-                'address'       => 'Jl. Tulip No. 21, Purwakarta',
+                'address'       => 'Jl. Ipik Gandamanah No. X, Purwakarta',
                 'join_date'     => '2024-06-10',
             ],
             [
@@ -186,7 +186,7 @@ class MemberSeeder extends Seeder
                 'name'          => 'Subani Maulana',
                 'email'         => 'subani.maulana@email.com',
                 'phone'         => '081234500022',
-                'address'       => 'Jl. Sakura No. 22, Purwakarta',
+                'address'       => 'Jl. Ipik Gandamanah No. X, Purwakarta',
                 'join_date'     => '2024-07-01',
             ],
             [
@@ -194,7 +194,7 @@ class MemberSeeder extends Seeder
                 'name'          => 'Umar Maulana Sidiq',
                 'email'         => 'umar.maulana.sidiq@email.com',
                 'phone'         => '081234500023',
-                'address'       => 'Jl. Lavender No. 23, Purwakarta',
+                'address'       => 'Jl. Ipik Gandamanah No. X, Purwakarta',
                 'join_date'     => '2024-07-05',
             ],
             [
@@ -202,7 +202,7 @@ class MemberSeeder extends Seeder
                 'name'          => 'Zahra Ayu Trisna',
                 'email'         => 'zahra.ayu.trisna@email.com',
                 'phone'         => '081234500024',
-                'address'       => 'Jl. Wijaya Kusuma No. 24, Purwakarta',
+                'address'       => 'Jl. Ipik Gandamanah No. X, Purwakarta',
                 'join_date'     => '2024-07-10',
             ],
         ];

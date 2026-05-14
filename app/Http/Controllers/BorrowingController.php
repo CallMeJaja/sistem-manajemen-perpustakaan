@@ -54,7 +54,10 @@ class BorrowingController extends Controller
             return back()->withErrors(['book_id' => 'Stok buku tidak tersedia.'])->withInput();
         }
 
-        $borrowNumber = 'BRW-' . now()->format('Ymd') . '-' . str_pad(Borrowing::count() + 1, 5, '0', STR_PAD_LEFT);
+        // Generate PJ/YYYYMMDD/0001
+        $todayPrefix = 'PJ/' . now()->format('Ymd') . '/';
+        $todayCount = Borrowing::where('borrow_number', 'like', $todayPrefix . '%')->count();
+        $borrowNumber = $todayPrefix . str_pad($todayCount + 1, 4, '0', STR_PAD_LEFT);
 
         Borrowing::create([
             'borrow_number' => $borrowNumber,
@@ -72,7 +75,14 @@ class BorrowingController extends Controller
 
     public function show(Borrowing $borrowing)
     {
-        return redirect()->route('borrowings.index');
+        $borrowing->load(['member', 'book', 'return']);
+        return view('borrowings.show', compact('borrowing'));
+    }
+
+    public function printReceipt(Borrowing $borrowing)
+    {
+        $borrowing->load(['member', 'book', 'return']);
+        return view('borrowings.print', compact('borrowing'));
     }
 
     public function edit(Borrowing $borrowing)

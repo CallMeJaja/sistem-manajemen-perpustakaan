@@ -25,7 +25,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('books', BookController::class);
     Route::resource('members', MemberController::class);
     Route::resource('borrowings', BorrowingController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
+    Route::get('borrowings/{borrowing}/print', [BorrowingController::class, 'printReceipt'])->name('borrowings.print');
     Route::get('borrowings/{borrowing}/return', [BookReturnController::class, 'create'])->name('returns.create');
     Route::post('borrowings/{borrowing}/return', [BookReturnController::class, 'store'])->name('returns.store');
 });
-

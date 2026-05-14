@@ -55,7 +55,12 @@ class MemberController extends Controller
 
     public function show(Member $member)
     {
-        return redirect()->route('members.edit', $member);
+        $borrowings = $member->borrowings()
+            ->with(['book', 'return'])
+            ->latest()
+            ->paginate(10);
+
+        return view('members.show', compact('member', 'borrowings'));
     }
 
     public function edit(Member $member)

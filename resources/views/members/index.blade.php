@@ -65,6 +65,9 @@
                             </td>
                             <td class="text-center">
                                 <div class="btn-group-action">
+                                    <a href="{{ route('members.show', $member) }}" class="btn btn-sm btn-outline-info" title="Detail">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
                                     <a href="{{ route('members.edit', $member) }}" class="btn btn-sm btn-outline-primary" title="Edit">
                                         <i class="bi bi-pencil"></i>
                                     </a>
