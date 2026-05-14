@@ -93,7 +93,7 @@
             </div>
         @endforeach
     </div>
-    {{ $books->links() }}
+    <x-pagination :paginator="$books" />
 @else
     <div class="text-center py-5 text-muted">
         <i class="bi bi-inbox" style="font-size:3.5rem;display:block;margin-bottom:12px;opacity:.4;"></i>

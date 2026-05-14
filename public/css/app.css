@@ -361,7 +361,9 @@ body {
     border-color: #e2e8f0;
     color: #374151;
     font-size: 0.82rem;
+    line-height: 1.4;
     padding: 6px 10px;
 }
 .page-link:hover { background: #f1f5f9; color: #1e293b; }
 .page-item.active .page-link { background: #2563eb; border-color: #2563eb; }
+.page-item.disabled .page-link { color: #cbd5e1; }

@@ -111,7 +111,7 @@
 
         @if ($books->hasPages())
             <div class="mt-3">
-                {{ $books->links() }}
+                <x-pagination :paginator="$books" />
             </div>
         @endif
     </div>
