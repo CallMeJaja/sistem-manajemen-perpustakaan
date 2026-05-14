@@ -22,10 +22,12 @@
         </div>
     </nav>
 
-    @yield('hero')
+    <div class="flex-grow-1">
+        @yield('hero')
 
-    <div class="container py-4">
-        @yield('content')
+        <div class="container py-4">
+            @yield('content')
+        </div>
     </div>
 
     <footer class="public-footer">

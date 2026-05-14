@@ -101,7 +101,7 @@
 
         @if ($borrowings->hasPages())
             <div class="mt-3">
-                <x-pagination :paginator="$borrowings" />
+                {{ $borrowings->links('pagination.custom') }}
             </div>
         @endif
     </div>

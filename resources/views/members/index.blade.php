@@ -92,7 +92,7 @@
 
         @if ($members->hasPages())
             <div class="mt-3">
-                <x-pagination :paginator="$members" />
+                {{ $members->links('pagination.custom') }}
             </div>
         @endif
     </div>

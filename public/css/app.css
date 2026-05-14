@@ -10,7 +10,12 @@ body {
     font-size: 0.875rem;
     background-color: #f5f6fa;
     color: #1e293b;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
+
+.flex-grow-1 { flex: 1; }
 
 /* =========================================
    ADMIN SIDEBAR LAYOUT
@@ -295,9 +300,10 @@ body {
 
 .search-bar-hero .form-control,
 .search-bar-hero .form-select {
-    background: rgba(255,255,255,0.95);
+    background-color: rgba(255,255,255,0.95);
     border: none;
     border-radius: 8px;
+    padding-right: 1.75rem; /* Ukuran optimal untuk icon dropdown */
 }
 
 .search-bar-hero .btn { min-width: 90px; }

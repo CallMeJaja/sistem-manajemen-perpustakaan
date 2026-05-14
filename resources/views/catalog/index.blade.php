@@ -12,7 +12,7 @@
 
                 <div class="search-bar-hero">
                     <form method="GET" action="{{ route('catalog.index') }}" class="row g-2">
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <input type="text" name="search" class="form-control"
                                    placeholder="Cari judul, pengarang..."
                                    value="{{ request('search') }}">
@@ -25,7 +25,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <select name="availability" class="form-select">
                                 <option value="">Semua Stok</option>
                                 <option value="available" @selected(request('availability') === 'available')>Tersedia</option>
@@ -93,7 +93,7 @@
             </div>
         @endforeach
     </div>
-    <x-pagination :paginator="$books" />
+    {{ $books->links('pagination.custom') }}
 @else
     <div class="text-center py-5 text-muted">
         <i class="bi bi-inbox" style="font-size:3.5rem;display:block;margin-bottom:12px;opacity:.4;"></i>
