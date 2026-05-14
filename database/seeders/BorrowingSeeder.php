@@ -18,7 +18,7 @@ class BorrowingSeeder extends Seeder
         $borrowings = [
             // Dikembalikan tepat waktu
             [
-                'member_number' => 'MBR-00001',
+                'member_number' => '202404020', // Al Amani Abas
                 'book_title'    => 'Laskar Pelangi',
                 'borrow_date'   => now()->subDays(30)->format('Y-m-d'),
                 'due_date'      => now()->subDays(23)->format('Y-m-d'),
@@ -29,7 +29,7 @@ class BorrowingSeeder extends Seeder
             ],
             // Dikembalikan tepat waktu
             [
-                'member_number' => 'MBR-00002',
+                'member_number' => '202404018', // Dhafi Ebsan Yurizal
                 'book_title'    => 'Filosofi Teras',
                 'borrow_date'   => now()->subDays(25)->format('Y-m-d'),
                 'due_date'      => now()->subDays(18)->format('Y-m-d'),
@@ -40,7 +40,7 @@ class BorrowingSeeder extends Seeder
             ],
             // Dikembalikan terlambat
             [
-                'member_number' => 'MBR-00003',
+                'member_number' => '202404025', // Diva Oryza Sativa
                 'book_title'    => 'Atomic Habits',
                 'borrow_date'   => now()->subDays(20)->format('Y-m-d'),
                 'due_date'      => now()->subDays(13)->format('Y-m-d'),
@@ -51,7 +51,7 @@ class BorrowingSeeder extends Seeder
             ],
             // Dikembalikan terlambat
             [
-                'member_number' => 'MBR-00004',
+                'member_number' => '202404002', // Dyan Putri Agustin
                 'book_title'    => 'Rich Dad Poor Dad',
                 'borrow_date'   => now()->subDays(15)->format('Y-m-d'),
                 'due_date'      => now()->subDays(8)->format('Y-m-d'),
@@ -62,7 +62,7 @@ class BorrowingSeeder extends Seeder
             ],
             // Masih dipinjam - tepat waktu
             [
-                'member_number' => 'MBR-00005',
+                'member_number' => '202404001', // Fikri Ramdani
                 'book_title'    => 'Sapiens: A Brief History of Humankind',
                 'borrow_date'   => now()->subDays(5)->format('Y-m-d'),
                 'due_date'      => now()->addDays(2)->format('Y-m-d'),
@@ -70,7 +70,7 @@ class BorrowingSeeder extends Seeder
             ],
             // Masih dipinjam - tepat waktu
             [
-                'member_number' => 'MBR-00006',
+                'member_number' => '202404010', // Helgi Nur Allamsyah
                 'book_title'    => 'Negeri 5 Menara',
                 'borrow_date'   => now()->subDays(3)->format('Y-m-d'),
                 'due_date'      => now()->addDays(4)->format('Y-m-d'),
@@ -78,7 +78,7 @@ class BorrowingSeeder extends Seeder
             ],
             // Masih dipinjam - TERLAMBAT
             [
-                'member_number' => 'MBR-00007',
+                'member_number' => '202404007', // Intan Sri Dayanti
                 'book_title'    => 'Laskar Pelangi',
                 'borrow_date'   => now()->subDays(15)->format('Y-m-d'),
                 'due_date'      => now()->subDays(5)->format('Y-m-d'),
@@ -86,7 +86,7 @@ class BorrowingSeeder extends Seeder
             ],
             // Masih dipinjam - TERLAMBAT
             [
-                'member_number' => 'MBR-00008',
+                'member_number' => '202404026', // Jerry Sutisno
                 'book_title'    => 'Perahu Kertas',
                 'borrow_date'   => now()->subDays(20)->format('Y-m-d'),
                 'due_date'      => now()->subDays(8)->format('Y-m-d'),
@@ -94,7 +94,7 @@ class BorrowingSeeder extends Seeder
             ],
             // Masih dipinjam - tepat waktu
             [
-                'member_number' => 'MBR-00009',
+                'member_number' => '202404005', // Josh Winston Imanuel
                 'book_title'    => 'The Psychology of Money',
                 'borrow_date'   => now()->subDays(2)->format('Y-m-d'),
                 'due_date'      => now()->addDays(5)->format('Y-m-d'),
@@ -102,7 +102,7 @@ class BorrowingSeeder extends Seeder
             ],
             // Dikembalikan tepat waktu
             [
-                'member_number' => 'MBR-00010',
+                'member_number' => '202404017', // Keisya Febri Sabila
                 'book_title'    => 'Pemrograman Web dengan PHP & MySQL',
                 'borrow_date'   => now()->subDays(35)->format('Y-m-d'),
                 'due_date'      => now()->subDays(28)->format('Y-m-d'),
@@ -113,7 +113,7 @@ class BorrowingSeeder extends Seeder
             ],
             // Bulan lalu untuk data grafik
             [
-                'member_number' => 'MBR-00001',
+                'member_number' => '202404011', // Khaikal Iksanuddin
                 'book_title'    => 'Clean Code',
                 'borrow_date'   => now()->subMonths(1)->subDays(10)->format('Y-m-d'),
                 'due_date'      => now()->subMonths(1)->subDays(3)->format('Y-m-d'),
@@ -123,7 +123,7 @@ class BorrowingSeeder extends Seeder
                 'fine_amount'   => 0,
             ],
             [
-                'member_number' => 'MBR-00002',
+                'member_number' => '202404009', // Kirana Larasati Dewi
                 'book_title'    => 'The 7 Habits of Highly Effective People',
                 'borrow_date'   => now()->subMonths(2)->subDays(5)->format('Y-m-d'),
                 'due_date'      => now()->subMonths(2)->addDays(2)->format('Y-m-d'),

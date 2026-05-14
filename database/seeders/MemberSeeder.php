@@ -14,7 +14,7 @@ class MemberSeeder extends Seeder
     {
         $members = [
             [
-                'member_number' => 'MBR-00001',
+                'member_number' => '202404020',
                 'name'          => 'Al Amani Abas',
                 'email'         => 'al.amani.abas@email.com',
                 'phone'         => '081234500001',
@@ -22,7 +22,7 @@ class MemberSeeder extends Seeder
                 'join_date'     => '2024-01-10',
             ],
             [
-                'member_number' => 'MBR-00002',
+                'member_number' => '202404018',
                 'name'          => 'Dhafi Ebsan Yurizal',
                 'email'         => 'dhafi.ebsan.yurizal@email.com',
                 'phone'         => '081234500002',
@@ -30,7 +30,7 @@ class MemberSeeder extends Seeder
                 'join_date'     => '2024-01-12',
             ],
             [
-                'member_number' => 'MBR-00003',
+                'member_number' => '202404025',
                 'name'          => 'Diva Oryza Sativa',
                 'email'         => 'diva.oryza.sativa@email.com',
                 'phone'         => '081234500003',
@@ -38,7 +38,7 @@ class MemberSeeder extends Seeder
                 'join_date'     => '2024-01-15',
             ],
             [
-                'member_number' => 'MBR-00004',
+                'member_number' => '202404002',
                 'name'          => 'Dyan Putri Agustin',
                 'email'         => 'dyan.putri.agustin@email.com',
                 'phone'         => '081234500004',
@@ -46,7 +46,7 @@ class MemberSeeder extends Seeder
                 'join_date'     => '2024-02-01',
             ],
             [
-                'member_number' => 'MBR-00005',
+                'member_number' => '202404001',
                 'name'          => 'Fikri Ramdani',
                 'email'         => 'fikri.ramdani@email.com',
                 'phone'         => '081234500005',
@@ -54,7 +54,7 @@ class MemberSeeder extends Seeder
                 'join_date'     => '2024-02-05',
             ],
             [
-                'member_number' => 'MBR-00006',
+                'member_number' => '202404010',
                 'name'          => 'Helgi Nur Allamsyah',
                 'email'         => 'helgi.nur.allamsyah@email.com',
                 'phone'         => '081234500006',
@@ -62,7 +62,7 @@ class MemberSeeder extends Seeder
                 'join_date'     => '2024-02-10',
             ],
             [
-                'member_number' => 'MBR-00007',
+                'member_number' => '202404007',
                 'name'          => 'Intan Sri Dayanti',
                 'email'         => 'intan.sri.dayanti@email.com',
                 'phone'         => '081234500007',
@@ -70,7 +70,7 @@ class MemberSeeder extends Seeder
                 'join_date'     => '2024-02-15',
             ],
             [
-                'member_number' => 'MBR-00008',
+                'member_number' => '202404026',
                 'name'          => 'Jerry Sutisno',
                 'email'         => 'jerry.sutisno@email.com',
                 'phone'         => '081234500008',
@@ -78,7 +78,7 @@ class MemberSeeder extends Seeder
                 'join_date'     => '2024-03-01',
             ],
             [
-                'member_number' => 'MBR-00009',
+                'member_number' => '202404005',
                 'name'          => 'Josh Winston Imanuel',
                 'email'         => 'josh.winston.imanuel@email.com',
                 'phone'         => '081234500009',
@@ -86,7 +86,7 @@ class MemberSeeder extends Seeder
                 'join_date'     => '2024-03-05',
             ],
             [
-                'member_number' => 'MBR-00010',
+                'member_number' => '202404017',
                 'name'          => 'Keisya Febri Sabila',
                 'email'         => 'keisya.febri.sabila@email.com',
                 'phone'         => '081234500010',
@@ -94,7 +94,7 @@ class MemberSeeder extends Seeder
                 'join_date'     => '2024-03-10',
             ],
             [
-                'member_number' => 'MBR-00011',
+                'member_number' => '202404011',
                 'name'          => 'Khaikal Iksanuddin',
                 'email'         => 'khaikal.iksanuddin@email.com',
                 'phone'         => '081234500011',
@@ -102,7 +102,7 @@ class MemberSeeder extends Seeder
                 'join_date'     => '2024-03-15',
             ],
             [
-                'member_number' => 'MBR-00012',
+                'member_number' => '202404009',
                 'name'          => 'Kirana Larasati Dewi',
                 'email'         => 'kirana.larasati.dewi@email.com',
                 'phone'         => '081234500012',
@@ -110,7 +110,7 @@ class MemberSeeder extends Seeder
                 'join_date'     => '2024-04-01',
             ],
             [
-                'member_number' => 'MBR-00013',
+                'member_number' => '202404008',
                 'name'          => 'Muhamad Gilang Ramadan',
                 'email'         => 'muhamad.gilang.ramadan@email.com',
                 'phone'         => '081234500013',
@@ -118,7 +118,7 @@ class MemberSeeder extends Seeder
                 'join_date'     => '2024-04-05',
             ],
             [
-                'member_number' => 'MBR-00014',
+                'member_number' => '202404013',
                 'name'          => 'Muhamad Sarwan Al Barizy',
                 'email'         => 'muhamad.sarwan.al.barizy@email.com',
                 'phone'         => '081234500014',
@@ -126,7 +126,7 @@ class MemberSeeder extends Seeder
                 'join_date'     => '2024-04-10',
             ],
             [
-                'member_number' => 'MBR-00015',
+                'member_number' => '202404012',
                 'name'          => 'Muhammad Apiransyah Ramdhani',
                 'email'         => 'muhammad.apiransyah.ramdhani@email.com',
                 'phone'         => '081234500015',
@@ -134,7 +134,7 @@ class MemberSeeder extends Seeder
                 'join_date'     => '2024-04-15',
             ],
             [
-                'member_number' => 'MBR-00016',
+                'member_number' => '202404021',
                 'name'          => 'Reza Asriano Maulana',
                 'email'         => 'reza.asriano.maulana@email.com',
                 'phone'         => '081234500016',
@@ -142,7 +142,7 @@ class MemberSeeder extends Seeder
                 'join_date'     => '2024-05-01',
             ],
             [
-                'member_number' => 'MBR-00017',
+                'member_number' => '202404004',
                 'name'          => 'Salman Alfaridzi',
                 'email'         => 'salman.alfaridzi@email.com',
                 'phone'         => '081234500017',
@@ -150,7 +150,7 @@ class MemberSeeder extends Seeder
                 'join_date'     => '2024-05-05',
             ],
             [
-                'member_number' => 'MBR-00018',
+                'member_number' => '202404022',
                 'name'          => 'Satrio Ilham Syahputra',
                 'email'         => 'satrio.ilham.syahputra@email.com',
                 'phone'         => '081234500018',
@@ -158,7 +158,7 @@ class MemberSeeder extends Seeder
                 'join_date'     => '2024-05-10',
             ],
             [
-                'member_number' => 'MBR-00019',
+                'member_number' => '202404024',
                 'name'          => 'Shevadina Aulia Rahma',
                 'email'         => 'shevadina.aulia.rahma@email.com',
                 'phone'         => '081234500019',
@@ -166,7 +166,7 @@ class MemberSeeder extends Seeder
                 'join_date'     => '2024-06-01',
             ],
             [
-                'member_number' => 'MBR-00020',
+                'member_number' => '202404014',
                 'name'          => 'Siti Fatimatuzzahro',
                 'email'         => 'siti.fatimatuzzahro@email.com',
                 'phone'         => '081234500020',
@@ -174,7 +174,7 @@ class MemberSeeder extends Seeder
                 'join_date'     => '2024-06-05',
             ],
             [
-                'member_number' => 'MBR-00021',
+                'member_number' => '202404027',
                 'name'          => 'Siti Romlah',
                 'email'         => 'siti.romlah@email.com',
                 'phone'         => '081234500021',
@@ -182,7 +182,7 @@ class MemberSeeder extends Seeder
                 'join_date'     => '2024-06-10',
             ],
             [
-                'member_number' => 'MBR-00022',
+                'member_number' => '202404023',
                 'name'          => 'Subani Maulana',
                 'email'         => 'subani.maulana@email.com',
                 'phone'         => '081234500022',
@@ -190,7 +190,7 @@ class MemberSeeder extends Seeder
                 'join_date'     => '2024-07-01',
             ],
             [
-                'member_number' => 'MBR-00023',
+                'member_number' => '202404016',
                 'name'          => 'Umar Maulana Sidiq',
                 'email'         => 'umar.maulana.sidiq@email.com',
                 'phone'         => '081234500023',
@@ -198,7 +198,7 @@ class MemberSeeder extends Seeder
                 'join_date'     => '2024-07-05',
             ],
             [
-                'member_number' => 'MBR-00024',
+                'member_number' => '202404019',
                 'name'          => 'Zahra Ayu Trisna',
                 'email'         => 'zahra.ayu.trisna@email.com',
                 'phone'         => '081234500024',
