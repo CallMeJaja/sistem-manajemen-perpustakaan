@@ -34,9 +34,9 @@ class Borrowing extends Model
         return $this->belongsTo(Book::class);
     }
 
-    public function return()
+    public function bookReturn()
     {
-        return $this->hasOne(Return::class);
+        return $this->hasOne(BookReturn::class, 'borrowing_id');
     }
 
     public function isLate(): bool
@@ -44,3 +44,4 @@ class Borrowing extends Model
         return $this->status === 'borrowed' && now()->greaterThan($this->due_date);
     }
 }
+
