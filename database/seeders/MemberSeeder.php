@@ -207,7 +207,8 @@ class MemberSeeder extends Seeder
             ],
         ];
 
-        foreach ($members as $member) {
+        foreach ($members as $index => $member) {
+            $member['address'] = 'Jl. Ipik Gandamanah No. ' . ($index + 1) . ', Purwakarta';
             Member::create($member);
         }
     }
