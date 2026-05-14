@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Member;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class MemberController extends Controller
 {
+    /**
+     * Display a listing of the members.
+     */
     public function index(Request $request)
     {
         $query = Member::query();
@@ -71,9 +75,9 @@ class MemberController extends Controller
     public function update(Request $request, Member $member)
     {
         $request->validate([
-            'member_number' => ['required', 'string', 'max:20', 'unique:members,member_number,' . $member->id],
+            'member_number' => ['required', 'string', 'max:20', Rule::unique('members')->ignore($member->id)],
             'name'          => ['required', 'string', 'max:255'],
-            'email'         => ['required', 'email', 'max:255', 'unique:members,email,' . $member->id],
+            'email'         => ['required', 'email', 'max:255', Rule::unique('members')->ignore($member->id)],
             'phone'         => ['nullable', 'string', 'max:20'],
             'address'       => ['nullable', 'string', 'max:500'],
             'join_date'     => ['required', 'date'],
