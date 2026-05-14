@@ -64,18 +64,20 @@
                                 @endif
                             </td>
                             <td class="text-center">
-                                <a href="{{ route('members.edit', $member) }}" class="btn btn-sm btn-outline-primary me-1" title="Edit">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                                <form method="POST" action="{{ route('members.destroy', $member) }}" class="d-inline"
-                                      onsubmit="return confirm('Hapus anggota ini?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus"
-                                        {{ $member->hasActiveBorrowing() ? 'disabled' : '' }}>
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </form>
+                                <div class="btn-group-action">
+                                    <a href="{{ route('members.edit', $member) }}" class="btn btn-sm btn-outline-primary" title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <form method="POST" action="{{ route('members.destroy', $member) }}"
+                                          onsubmit="return confirm('Hapus anggota ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus"
+                                            {{ $member->hasActiveBorrowing() ? 'disabled' : '' }}>
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @empty

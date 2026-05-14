@@ -25,7 +25,7 @@
                             <label for="member_number" class="form-label fw-medium">Nomor Anggota <span class="text-danger">*</span></label>
                             <input type="text" id="member_number" name="member_number"
                                    class="form-control @error('member_number') is-invalid @enderror"
-                                   value="{{ old('member_number', $memberNumber) }}" required>
+                                   value="{{ old('member_number', $nextNumber) }}" required>
                             @error('member_number') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
 
@@ -81,4 +81,13 @@
         </div>
     </div>
 </div>
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const joinDateInput = document.getElementById('join_date');
+        const today = new Date().toISOString().split('T')[0];
+        joinDateInput.setAttribute('max', today);
+    });
+</script>
+@endpush
 @endsection

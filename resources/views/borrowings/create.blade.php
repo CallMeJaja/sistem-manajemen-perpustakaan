@@ -80,4 +80,36 @@
         </div>
     </div>
 </div>
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const borrowDateInput = document.getElementById('borrow_date');
+        const dueDateInput = document.getElementById('due_date');
+
+        // Set min borrow_date to today
+        const today = new Date().toISOString().split('T')[0];
+        borrowDateInput.setAttribute('min', today);
+
+        borrowDateInput.addEventListener('change', function() {
+            const borrowDate = new Date(this.value);
+            if (isNaN(borrowDate.getTime())) return;
+
+            // Automatically set due_date to +7 days
+            const dueDate = new Date(borrowDate);
+            dueDate.setDate(dueDate.getDate() + 7);
+
+            const formattedDueDate = dueDate.toISOString().split('T')[0];
+            dueDateInput.value = formattedDueDate;
+
+            // Set min due_date to borrowDate
+            dueDateInput.setAttribute('min', this.value);
+        });
+
+        // Ensure due_date min is also set on page load
+        if (borrowDateInput.value) {
+            dueDateInput.setAttribute('min', borrowDateInput.value);
+        }
+    });
+</script>
+@endpush
 @endsection

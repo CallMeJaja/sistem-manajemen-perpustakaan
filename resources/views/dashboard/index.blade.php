@@ -11,7 +11,7 @@
     <div class="col-sm-6 col-xl-2">
         <div class="stat-card d-flex align-items-center gap-3">
             <div class="stat-card-icon" style="background:#eff6ff;">
-                <i class="bi bi-books" style="color:#2563eb;"></i>
+                <i class="bi bi-book" style="color:#2563eb;"></i>
             </div>
             <div>
                 <div class="text-muted" style="font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;">Total Buku</div>

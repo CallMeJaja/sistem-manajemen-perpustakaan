@@ -27,9 +27,14 @@ class MemberController extends Controller
 
     public function create()
     {
-        $memberNumber = 'MBR-' . str_pad(Member::count() + 1, 5, '0', STR_PAD_LEFT);
+        // Get the latest member number that is numeric
+        $latest = Member::whereRaw('member_number REGEXP "^[0-9]+$"')
+            ->orderBy('member_number', 'desc')
+            ->first();
 
-        return view('members.create', compact('memberNumber'));
+        $nextNumber = $latest ? (int)$latest->member_number + 1 : 202404001;
+
+        return view('members.create', compact('nextNumber'));
     }
 
     public function store(Request $request)

@@ -12,8 +12,11 @@
 </head>
 <body>
 
+    {{-- SIDEBAR OVERLAY --}}
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
     {{-- SIDEBAR --}}
-    <aside class="sidebar">
+    <aside id="sidebar" class="sidebar">
         <a href="{{ route('dashboard') }}" class="sidebar-brand">
             <div class="sidebar-brand-icon">
                 <i class="bi bi-book-half"></i>
@@ -36,7 +39,7 @@
 
             <a href="{{ route('books.index') }}"
                class="sidebar-link {{ request()->routeIs('books.*') ? 'active' : '' }}">
-                <i class="bi bi-books"></i> Buku
+                <i class="bi bi-book"></i> Buku
             </a>
 
             <a href="{{ route('members.index') }}"
@@ -74,9 +77,14 @@
     {{-- MAIN WRAPPER --}}
     <div class="main-wrapper">
         <div class="topbar">
-            <div>
-                <div class="topbar-title">@yield('page-title', 'Dashboard')</div>
-                <div class="topbar-subtitle">@yield('page-subtitle', 'Sistem Manajemen Perpustakaan Digital')</div>
+            <div class="d-flex align-items-center gap-3">
+                <button id="sidebarToggle" class="btn btn-outline-secondary d-lg-none btn-sm px-2">
+                    <i class="bi bi-list fs-5"></i>
+                </button>
+                <div>
+                    <div class="topbar-title">@yield('page-title', 'Dashboard')</div>
+                    <div class="topbar-subtitle">@yield('page-subtitle', 'Sistem Manajemen Perpustakaan Digital')</div>
+                </div>
             </div>
             @yield('topbar-actions')
         </div>
@@ -101,6 +109,21 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const toggle = document.getElementById('sidebarToggle');
+
+            function toggleSidebar() {
+                sidebar.classList.toggle('show');
+                overlay.classList.toggle('show');
+            }
+
+            if (toggle) toggle.addEventListener('click', toggleSidebar);
+            if (overlay) overlay.addEventListener('click', toggleSidebar);
+        });
+    </script>
     @stack('scripts')
 </body>
 </html>

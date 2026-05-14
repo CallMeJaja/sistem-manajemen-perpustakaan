@@ -28,8 +28,37 @@ body {
     background: linear-gradient(160deg, #1e3a5f 0%, #0f2444 100%);
     display: flex;
     flex-direction: column;
-    z-index: 1000;
+    z-index: 1050;
     overflow-y: auto;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Responsive Sidebar Mobile */
+@media (max-width: 991.98px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+    .sidebar.show {
+        transform: translateX(0);
+    }
+    .main-wrapper {
+        margin-left: 0 !important;
+    }
+    .sidebar-overlay {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(15, 23, 42, 0.5);
+        backdrop-filter: blur(4px);
+        z-index: 1040;
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    .sidebar-overlay.show {
+        display: block;
+        opacity: 1;
+    }
 }
 
 .sidebar-brand {
@@ -220,6 +249,21 @@ body {
 }
 .table tbody td { padding: 12px; vertical-align: middle; border-color: #f1f5f9; }
 .table tbody tr:hover { background: #f8fafc; }
+
+/* Action Buttons Spacing */
+.btn-group-action {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+@media (max-width: 767.98px) {
+    .btn-group-action {
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+    }
+}
 
 /* =========================================
    FORMS
