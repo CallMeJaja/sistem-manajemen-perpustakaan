@@ -20,7 +20,21 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-lg-center">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
+                           href="{{ route('dashboard') }}">
+                            <i class="bi bi-speedometer2 me-1"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('books.*') ? 'active' : '' }}"
+                           href="{{ route('books.index') }}">
+                            <i class="bi bi-books me-1"></i>Buku
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav align-items-lg-center">
                     <li class="nav-item">
                         <span class="nav-link text-white-50">
                             <i class="bi bi-person-circle me-1"></i>{{ Auth::user()->name }}
