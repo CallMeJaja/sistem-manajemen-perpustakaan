@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class Return extends Model
+class BookReturn extends Model
 {
-    /** @use HasFactory<\Database\Factories\ReturnFactory> */
+    /** @use HasFactory<\Database\Factories\BookReturnFactory> */
     use HasFactory;
 
     protected $table = 'returns';
