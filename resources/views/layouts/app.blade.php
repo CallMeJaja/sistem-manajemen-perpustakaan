@@ -39,6 +39,12 @@
                             <i class="bi bi-people me-1"></i>Anggota
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('borrowings.*') || request()->routeIs('returns.*') ? 'active' : '' }}"
+                           href="{{ route('borrowings.index') }}">
+                            <i class="bi bi-arrow-left-right me-1"></i>Peminjaman
+                        </a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav align-items-lg-center">
                     <li class="nav-item">
