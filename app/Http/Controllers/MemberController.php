@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Member;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class MemberController extends Controller
 {
+    /**
+     * Display a listing of the members.
+     */
     public function index(Request $request)
     {
         $query = Member::query();
@@ -27,9 +31,14 @@ class MemberController extends Controller
 
     public function create()
     {
-        $memberNumber = 'MBR-' . str_pad(Member::count() + 1, 5, '0', STR_PAD_LEFT);
+        // Get the latest member number that is numeric
+        $latest = Member::whereRaw('member_number REGEXP "^[0-9]+$"')
+            ->orderBy('member_number', 'desc')
+            ->first();
 
-        return view('members.create', compact('memberNumber'));
+        $nextNumber = $latest ? (int)$latest->member_number + 1 : 202404001;
+
+        return view('members.create', compact('nextNumber'));
     }
 
     public function store(Request $request)
@@ -50,7 +59,12 @@ class MemberController extends Controller
 
     public function show(Member $member)
     {
-        return redirect()->route('members.edit', $member);
+        $borrowings = $member->borrowings()
+            ->with(['book', 'return'])
+            ->latest()
+            ->paginate(10);
+
+        return view('members.show', compact('member', 'borrowings'));
     }
 
     public function edit(Member $member)
@@ -61,9 +75,9 @@ class MemberController extends Controller
     public function update(Request $request, Member $member)
     {
         $request->validate([
-            'member_number' => ['required', 'string', 'max:20', 'unique:members,member_number,' . $member->id],
+            'member_number' => ['required', 'string', 'max:20', Rule::unique('members')->ignore($member->id)],
             'name'          => ['required', 'string', 'max:255'],
-            'email'         => ['required', 'email', 'max:255', 'unique:members,email,' . $member->id],
+            'email'         => ['required', 'email', 'max:255', Rule::unique('members')->ignore($member->id)],
             'phone'         => ['nullable', 'string', 'max:20'],
             'address'       => ['nullable', 'string', 'max:500'],
             'join_date'     => ['required', 'date'],

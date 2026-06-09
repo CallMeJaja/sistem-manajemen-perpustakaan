@@ -142,7 +142,8 @@ class BorrowingSeeder extends Seeder
                 continue;
             }
 
-            $borrowNumber = 'BRW-' . now()->subDays(30 - $index)->format('Ymd') . '-' . str_pad($index + 1, 5, '0', STR_PAD_LEFT);
+            $borrowDate = \Carbon\Carbon::parse($data['borrow_date']);
+            $borrowNumber = 'PJ/' . $borrowDate->format('Ymd') . '/' . str_pad($index + 1, 4, '0', STR_PAD_LEFT);
 
             $borrowing = Borrowing::create([
                 'borrow_number' => $borrowNumber,

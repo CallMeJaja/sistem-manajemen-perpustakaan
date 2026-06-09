@@ -1,12 +1,14 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\BookController;
-use App\Http\Controllers\BookReturnController;
-use App\Http\Controllers\BorrowingController;
-use App\Http\Controllers\CatalogController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\MemberController;
+use App\Http\Controllers\{
+    AuthController,
+    BookController,
+    BookReturnController,
+    BorrowingController,
+    CatalogController,
+    DashboardController,
+    MemberController
+};
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn() => redirect()->route('catalog.index'));
@@ -25,6 +27,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('books', BookController::class);
     Route::resource('members', MemberController::class);
     Route::resource('borrowings', BorrowingController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
+    Route::get('borrowings/{borrowing}/print', [BorrowingController::class, 'printReceipt'])->name('borrowings.print');
     Route::get('borrowings/{borrowing}/return', [BookReturnController::class, 'create'])->name('returns.create');
     Route::post('borrowings/{borrowing}/return', [BookReturnController::class, 'store'])->name('returns.store');
 });

@@ -1,17 +1,16 @@
 @extends('layouts.app')
 
 @section('title', 'Transaksi Peminjaman — Perpustakaan Digital')
+@section('page-title', 'Transaksi Peminjaman')
+@section('page-subtitle', 'Riwayat seluruh transaksi peminjaman buku')
 
-@section('content')
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <div>
-        <h5 class="fw-bold mb-0">Transaksi Peminjaman</h5>
-        <p class="text-muted small mb-0">Riwayat seluruh transaksi peminjaman</p>
-    </div>
-    <a href="{{ route('borrowings.create') }}" class="btn btn-primary">
+@section('topbar-actions')
+    <a href="{{ route('borrowings.create') }}" class="btn btn-primary btn-sm">
         <i class="bi bi-plus-lg me-1"></i>Catat Peminjaman
     </a>
-</div>
+@endsection
+
+@section('content')
 
 <div class="card border-0 shadow-sm">
     <div class="card-body">
@@ -78,14 +77,26 @@
                                 @endif
                             </td>
                             <td class="text-center">
-                                @if ($borrowing->status === 'borrowed')
-                                    <a href="{{ route('returns.create', $borrowing) }}"
-                                       class="btn btn-sm btn-outline-success" title="Proses Pengembalian">
-                                        <i class="bi bi-arrow-return-left"></i>
+                                <div class="btn-group-action">
+                                    <a href="{{ route('borrowings.print', $borrowing) }}" target="_blank"
+                                       class="btn btn-sm btn-outline-secondary" title="Cetak Struk">
+                                        <i class="bi bi-printer"></i>
                                     </a>
-                                @else
-                                    <span class="text-muted small">—</span>
-                                @endif
+                                    @if ($borrowing->status === 'borrowed')
+                                        <a href="{{ route('returns.create', $borrowing) }}"
+                                           class="btn btn-sm btn-outline-success" title="Proses Pengembalian">
+                                            <i class="bi bi-arrow-return-left"></i>
+                                        </a>
+                                    @endif
+                                    <form method="POST" action="{{ route('borrowings.destroy', $borrowing) }}"
+                                          onsubmit="return confirm('Hapus riwayat transaksi ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @empty
@@ -102,7 +113,7 @@
 
         @if ($borrowings->hasPages())
             <div class="mt-3">
-                {{ $borrowings->links() }}
+                {{ $borrowings->links('pagination.custom') }}
             </div>
         @endif
     </div>
