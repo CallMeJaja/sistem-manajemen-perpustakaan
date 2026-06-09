@@ -33,6 +33,12 @@
                             <i class="bi bi-books me-1"></i>Buku
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('members.*') ? 'active' : '' }}"
+                           href="{{ route('members.index') }}">
+                            <i class="bi bi-people me-1"></i>Anggota
+                        </a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav align-items-lg-center">
                     <li class="nav-item">
