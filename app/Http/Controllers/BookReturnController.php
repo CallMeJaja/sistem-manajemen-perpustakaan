@@ -16,7 +16,8 @@ class BookReturnController extends Controller
         }
 
         $returnDate = now()->toDateString();
-        $lateDays   = max(0, now()->startOfDay()->diffInDays($borrowing->due_date->startOfDay(), false) * -1);
+        $dueDate    = $borrowing->due_date->startOfDay();
+        $lateDays   = max(0, $dueDate->diffInDays(now()->startOfDay(), false));
         $fineAmount = $lateDays * 1000;
 
         return view('returns.create', compact('borrowing', 'returnDate', 'lateDays', 'fineAmount'));
@@ -34,7 +35,9 @@ class BookReturnController extends Controller
             'notes'       => ['nullable', 'string', 'max:500'],
         ]);
 
-        $lateDays   = max(0, now()->startOfDay()->diffInDays($borrowing->due_date->startOfDay(), false) * -1);
+        $returnDate = \Carbon\Carbon::parse($request->return_date)->startOfDay();
+        $dueDate    = $borrowing->due_date->startOfDay();
+        $lateDays   = max(0, $dueDate->diffInDays($returnDate, false));
         $fineAmount = $lateDays * 1000;
 
         BookReturn::create([

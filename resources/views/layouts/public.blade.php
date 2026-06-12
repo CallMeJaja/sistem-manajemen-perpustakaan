@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Katalog Buku — Perpustakaan Digital')</title>
+    <title>@yield('title', 'Katalog Buku — GramediKu')</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
@@ -14,7 +14,7 @@
     <nav class="navbar public-navbar">
         <div class="container">
             <a class="navbar-brand" href="{{ route('catalog.index') }}">
-                <i class="bi bi-book-half me-2"></i>Perpustakaan Digital
+                <i class="bi bi-book-half me-2"></i>GramediKu
             </a>
             <a href="{{ route('login') }}" class="btn btn-sm btn-outline-light">
                 <i class="bi bi-lock me-1"></i>Login Admin
@@ -31,7 +31,7 @@
     </div>
 
     <footer class="public-footer">
-        &copy; {{ date('Y') }} Perpustakaan Digital &mdash; Sistem Manajemen Perpustakaan
+        &copy; {{ date('Y') }} GramediKu &mdash; Sistem Manajemen Perpustakaan
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

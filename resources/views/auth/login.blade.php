@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login — Perpustakaan Digital</title>
+    <title>Login — GramediKu</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
@@ -38,7 +38,7 @@
     <div class="login-card">
         <div class="text-center mb-4">
             <div class="login-logo"><i class="bi bi-book-half"></i></div>
-            <h5 class="fw-bold mb-1">Perpustakaan Digital</h5>
+            <h5 class="fw-bold mb-1">GramediKu</h5>
             <p class="text-muted small mb-0">Masuk ke panel administrator</p>
         </div>
 

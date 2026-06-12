@@ -48,13 +48,17 @@
                         <th>Tgl Pinjam</th>
                         <th>Batas Kembali</th>
                         <th class="text-center">Status</th>
-                        <th class="text-center" style="width: 100px">Aksi</th>
+                        <th class="text-center" style="width: 130px">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($borrowings as $borrowing)
                         <tr>
-                            <td class="text-muted small fw-medium">{{ $borrowing->borrow_number }}</td>
+                            <td class="small fw-medium">
+                                <a href="{{ route('borrowings.show', $borrowing) }}" class="text-decoration-none fw-semibold">
+                                    {{ $borrowing->borrow_number }}
+                                </a>
+                            </td>
                             <td class="fw-medium">{{ $borrowing->member->name }}</td>
                             <td>
                                 <div class="small">{{ $borrowing->book->title }}</div>
@@ -73,11 +77,15 @@
                                 @if ($borrowing->status === 'borrowed')
                                     <span class="badge bg-warning-subtle text-warning-emphasis">Dipinjam</span>
                                 @else
-                                    <span class="badge bg-success-subtle text-success-emphasis">Dikembalikan</span>
+                                    <span class="badge bg-success-subtle text-success-emphasis">Kembali</span>
                                 @endif
                             </td>
                             <td class="text-center">
                                 <div class="btn-group-action">
+                                    <a href="{{ route('borrowings.show', $borrowing) }}"
+                                       class="btn btn-sm btn-outline-primary" title="Detail Peminjaman">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
                                     <a href="{{ route('borrowings.print', $borrowing) }}" target="_blank"
                                        class="btn btn-sm btn-outline-secondary" title="Cetak Struk">
                                         <i class="bi bi-printer"></i>

@@ -97,6 +97,12 @@ class BorrowingController extends Controller
 
     public function destroy(Borrowing $borrowing)
     {
-        return redirect()->route('borrowings.index');
+        if ($borrowing->status === 'borrowed') {
+            $borrowing->book->increment('available_stock');
+        }
+
+        $borrowing->delete();
+
+        return redirect()->route('borrowings.index')->with('success', 'Transaksi peminjaman berhasil dihapus.');
     }
 }

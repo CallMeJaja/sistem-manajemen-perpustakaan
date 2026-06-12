@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Katalog Buku — Perpustakaan Digital')
+@section('title', 'Katalog Buku — GramediKu')
 
 @section('hero')
 <div class="public-hero">
@@ -8,7 +8,7 @@
         <div class="row align-items-center">
             <div class="col-lg-7">
                 <h1><i class="bi bi-book-half me-2"></i>Katalog Buku</h1>
-                <p>Temukan buku favoritmu dari koleksi perpustakaan digital kami.</p>
+                <p>Temukan buku favoritmu dari koleksi perpustakaan digital GramediKu.</p>
 
                 <div class="search-bar-hero">
                     <form method="GET" action="{{ route('catalog.index') }}" class="row g-2">
