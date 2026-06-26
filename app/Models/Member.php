@@ -11,6 +11,7 @@ class Member extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'member_number',
         'name',
         'email',
@@ -22,6 +23,11 @@ class Member extends Model
     protected $casts = [
         'join_date' => 'date',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function borrowings()
     {

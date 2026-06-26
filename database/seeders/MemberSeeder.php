@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Member;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class MemberSeeder extends Seeder
 {
@@ -211,5 +213,28 @@ class MemberSeeder extends Seeder
             $member['address'] = 'Jl. Ipik Gandamanah No. ' . ($index + 1) . ', Purwakarta';
             Member::create($member);
         }
+
+        // Akun demo anggota yang bisa langsung login (member portal).
+        $demoUser = User::updateOrCreate(
+            ['email' => 'member@perpustakaan.com'],
+            [
+                'name'     => 'Anggota Demo',
+                'username' => 'anggota_demo',
+                'password' => Hash::make('password'),
+                'role'     => 'member',
+            ]
+        );
+
+        Member::updateOrCreate(
+            ['email' => 'member@perpustakaan.com'],
+            [
+                'user_id'       => $demoUser->id,
+                'member_number' => 'AGT-DEMO-001',
+                'name'          => 'Anggota Demo',
+                'phone'         => '081200000000',
+                'address'       => 'Jl. Ipik Gandamanah No. 1, Purwakarta',
+                'join_date'     => '2024-01-01',
+            ]
+        );
     }
 }
