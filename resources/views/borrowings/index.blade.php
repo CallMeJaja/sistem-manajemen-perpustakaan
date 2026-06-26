@@ -26,8 +26,10 @@
             <div class="col-md-3">
                 <select name="status" class="form-select">
                     <option value="">Semua Status</option>
+                    <option value="pending" @selected(request('status') === 'pending')>Menunggu Persetujuan</option>
                     <option value="borrowed" @selected(request('status') === 'borrowed')>Sedang Dipinjam</option>
                     <option value="returned" @selected(request('status') === 'returned')>Dikembalikan</option>
+                    <option value="rejected" @selected(request('status') === 'rejected')>Ditolak</option>
                 </select>
             </div>
             <div class="col-auto">
@@ -74,11 +76,16 @@
                                 @endif
                             </td>
                             <td class="text-center">
-                                @if ($borrowing->status === 'borrowed')
-                                    <span class="badge bg-warning-subtle text-warning-emphasis">Dipinjam</span>
-                                @else
-                                    <span class="badge bg-success-subtle text-success-emphasis">Kembali</span>
-                                @endif
+                                @php
+                                    $statusMap = [
+                                        'pending'  => ['Menunggu', 'bg-info-subtle text-info-emphasis'],
+                                        'borrowed' => ['Dipinjam', 'bg-warning-subtle text-warning-emphasis'],
+                                        'returned' => ['Kembali', 'bg-success-subtle text-success-emphasis'],
+                                        'rejected' => ['Ditolak', 'bg-danger-subtle text-danger-emphasis'],
+                                    ];
+                                    [$statusLabel, $statusClass] = $statusMap[$borrowing->status] ?? [ucfirst($borrowing->status), 'bg-secondary-subtle text-secondary-emphasis'];
+                                @endphp
+                                <span class="badge {{ $statusClass }}">{{ $statusLabel }}</span>
                             </td>
                             <td class="text-center">
                                 <div class="btn-group-action">
@@ -86,6 +93,22 @@
                                        class="btn btn-sm btn-outline-primary" title="Detail Peminjaman">
                                         <i class="bi bi-eye"></i>
                                     </a>
+                                    @if ($borrowing->status === 'pending')
+                                        <form method="POST" action="{{ route('borrowings.approve', $borrowing) }}"
+                                              onsubmit="return confirm('Setujui reservasi ini? Stok buku akan berkurang.')">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-outline-success" title="Setujui Reservasi">
+                                                <i class="bi bi-check-lg"></i>
+                                            </button>
+                                        </form>
+                                        <form method="POST" action="{{ route('borrowings.reject', $borrowing) }}"
+                                              onsubmit="return confirm('Tolak reservasi ini?')">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-outline-warning" title="Tolak Reservasi">
+                                                <i class="bi bi-x-lg"></i>
+                                            </button>
+                                        </form>
+                                    @endif
                                     <a href="{{ route('borrowings.print', $borrowing) }}" target="_blank"
                                        class="btn btn-sm btn-outline-secondary" title="Cetak Struk">
                                         <i class="bi bi-printer"></i>

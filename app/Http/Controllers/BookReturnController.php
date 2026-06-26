@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreReturnRequest;
 use App\Models\BookReturn;
 use App\Models\Borrowing;
-use Illuminate\Http\Request;
 
 class BookReturnController extends Controller
 {
     public function create(Borrowing $borrowing)
     {
-        if ($borrowing->status === 'returned') {
+        if ($borrowing->status !== 'borrowed') {
             return redirect()->route('borrowings.index')
-                ->with('error', 'Buku ini sudah dikembalikan.');
+                ->with('error', 'Hanya peminjaman aktif yang dapat dikembalikan.');
         }
 
         $returnDate = now()->toDateString();
@@ -23,17 +23,12 @@ class BookReturnController extends Controller
         return view('returns.create', compact('borrowing', 'returnDate', 'lateDays', 'fineAmount'));
     }
 
-    public function store(Request $request, Borrowing $borrowing)
+    public function store(StoreReturnRequest $request, Borrowing $borrowing)
     {
-        if ($borrowing->status === 'returned') {
+        if ($borrowing->status !== 'borrowed') {
             return redirect()->route('borrowings.index')
-                ->with('error', 'Buku ini sudah dikembalikan.');
+                ->with('error', 'Hanya peminjaman aktif yang dapat dikembalikan.');
         }
-
-        $request->validate([
-            'return_date' => ['required', 'date'],
-            'notes'       => ['nullable', 'string', 'max:500'],
-        ]);
 
         $returnDate = \Carbon\Carbon::parse($request->return_date)->startOfDay();
         $dueDate    = $borrowing->due_date->startOfDay();

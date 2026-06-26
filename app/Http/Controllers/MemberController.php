@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreMemberRequest;
+use App\Http\Requests\UpdateMemberRequest;
 use App\Models\Member;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class MemberController extends Controller
 {
@@ -41,17 +42,8 @@ class MemberController extends Controller
         return view('members.create', compact('nextNumber'));
     }
 
-    public function store(Request $request)
+    public function store(StoreMemberRequest $request)
     {
-        $request->validate([
-            'member_number' => ['required', 'string', 'max:20', 'unique:members,member_number'],
-            'name'          => ['required', 'string', 'max:255'],
-            'email'         => ['required', 'email', 'max:255', 'unique:members,email'],
-            'phone'         => ['nullable', 'string', 'max:20'],
-            'address'       => ['nullable', 'string', 'max:500'],
-            'join_date'     => ['required', 'date'],
-        ]);
-
         Member::create($request->only(['member_number', 'name', 'email', 'phone', 'address', 'join_date']));
 
         return redirect()->route('members.index')->with('success', 'Anggota berhasil didaftarkan.');
@@ -72,17 +64,8 @@ class MemberController extends Controller
         return view('members.edit', compact('member'));
     }
 
-    public function update(Request $request, Member $member)
+    public function update(UpdateMemberRequest $request, Member $member)
     {
-        $request->validate([
-            'member_number' => ['required', 'string', 'max:20', Rule::unique('members')->ignore($member->id)],
-            'name'          => ['required', 'string', 'max:255'],
-            'email'         => ['required', 'email', 'max:255', Rule::unique('members')->ignore($member->id)],
-            'phone'         => ['nullable', 'string', 'max:20'],
-            'address'       => ['nullable', 'string', 'max:500'],
-            'join_date'     => ['required', 'date'],
-        ]);
-
         $member->update($request->only(['member_number', 'name', 'email', 'phone', 'address', 'join_date']));
 
         return redirect()->route('members.index')->with('success', 'Data anggota berhasil diperbarui.');
