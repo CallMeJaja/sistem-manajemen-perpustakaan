@@ -31,10 +31,10 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->n
 
 // Reservasi buku oleh anggota (dari katalog).
 Route::post('/catalog/{book}/reserve', [ReservationController::class, 'store'])
-    ->middleware('auth')->name('catalog.reserve');
+    ->middleware(['auth', 'member'])->name('catalog.reserve');
 
 // Area Anggota (Member Portal).
-Route::middleware('auth')->prefix('member')->name('member.')->group(function () {
+Route::middleware(['auth', 'member'])->prefix('member')->name('member.')->group(function () {
     Route::get('/dashboard', [MemberPortalController::class, 'dashboard'])->name('dashboard');
     Route::get('/borrowings', [MemberPortalController::class, 'borrowings'])->name('borrowings');
     Route::get('/profile', [MemberPortalController::class, 'profile'])->name('profile');
