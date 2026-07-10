@@ -16,9 +16,32 @@
             <a class="navbar-brand" href="{{ route('catalog.index') }}">
                 <i class="bi bi-book-half me-2"></i>GramediKu
             </a>
-            <a href="{{ route('login') }}" class="btn btn-sm btn-outline-light">
-                <i class="bi bi-lock me-1"></i>Login Admin
-            </a>
+            <div class="d-flex align-items-center gap-2">
+                @auth
+                    @if (auth()->user()->isMember())
+                        <a href="{{ route('member.dashboard') }}" class="btn btn-sm btn-outline-light">
+                            <i class="bi bi-person-circle me-1"></i>Portal Saya
+                        </a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="btn btn-sm btn-light">
+                                <i class="bi bi-box-arrow-right me-1"></i>Keluar
+                            </button>
+                        </form>
+                    @else
+                        <a href="{{ route('dashboard') }}" class="btn btn-sm btn-outline-light">
+                            <i class="bi bi-speedometer2 me-1"></i>Dashboard Admin
+                        </a>
+                    @endif
+                @else
+                    <a href="{{ route('login') }}" class="btn btn-sm btn-outline-light">
+                        <i class="bi bi-box-arrow-in-right me-1"></i>Masuk
+                    </a>
+                    <a href="{{ route('register') }}" class="btn btn-sm btn-light">
+                        <i class="bi bi-person-plus me-1"></i>Daftar
+                    </a>
+                @endauth
+            </div>
         </div>
     </nav>
 
