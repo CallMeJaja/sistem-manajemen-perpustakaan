@@ -10,7 +10,7 @@ class AuthController extends Controller
     public function showLoginForm()
     {
         if (Auth::check()) {
-            return redirect()->route('dashboard');
+            return redirect($this->homeFor(Auth::user()));
         }
 
         return view('auth.login');
@@ -26,7 +26,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
 
-            return redirect()->intended(route('dashboard'));
+            return redirect()->intended($this->homeFor(Auth::user()));
         }
 
         return back()->withErrors([
@@ -42,5 +42,15 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('catalog.index');
+    }
+
+    /**
+     * Halaman tujuan setelah login sesuai peran pengguna.
+     */
+    private function homeFor($user): string
+    {
+        return $user->isAdmin()
+            ? route('dashboard')
+            : route('member.dashboard');
     }
 }

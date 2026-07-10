@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreBorrowingRequest;
 use App\Models\Book;
 use App\Models\Borrowing;
 use App\Models\Member;
@@ -39,25 +40,15 @@ class BorrowingController extends Controller
         return view('borrowings.create', compact('members', 'books'));
     }
 
-    public function store(Request $request)
+    public function store(StoreBorrowingRequest $request)
     {
-        $request->validate([
-            'member_id'   => ['required', 'exists:members,id'],
-            'book_id'     => ['required', 'exists:books,id'],
-            'borrow_date' => ['required', 'date'],
-            'due_date'    => ['required', 'date', 'after:borrow_date'],
-        ]);
-
         $book = Book::findOrFail($request->book_id);
 
         if ($book->available_stock < 1) {
             return back()->withErrors(['book_id' => 'Stok buku tidak tersedia.'])->withInput();
         }
 
-        // Generate PJ/YYYYMMDD/0001
-        $todayPrefix = 'PJ/' . now()->format('Ymd') . '/';
-        $todayCount = Borrowing::where('borrow_number', 'like', $todayPrefix . '%')->count();
-        $borrowNumber = $todayPrefix . str_pad($todayCount + 1, 4, '0', STR_PAD_LEFT);
+        $borrowNumber = Borrowing::generateBorrowNumber();
 
         Borrowing::create([
             'borrow_number' => $borrowNumber,
@@ -104,5 +95,45 @@ class BorrowingController extends Controller
         $borrowing->delete();
 
         return redirect()->route('borrowings.index')->with('success', 'Transaksi peminjaman berhasil dihapus.');
+    }
+
+    /**
+     * Setujui reservasi anggota: status -> borrowed, stok dikurangi.
+     */
+    public function approve(Borrowing $borrowing)
+    {
+        if ($borrowing->status !== 'pending') {
+            return back()->with('error', 'Hanya reservasi yang masih menunggu yang bisa disetujui.');
+        }
+
+        $book = $borrowing->book;
+
+        if ($book->available_stock < 1) {
+            return back()->with('error', 'Stok buku habis, reservasi tidak dapat disetujui.');
+        }
+
+        $borrowing->update([
+            'status'      => 'borrowed',
+            'borrow_date' => now()->toDateString(),
+            'due_date'    => now()->addDays(7)->toDateString(),
+        ]);
+
+        $book->decrement('available_stock');
+
+        return back()->with('success', "Reservasi {$borrowing->borrow_number} disetujui. Buku siap diambil anggota.");
+    }
+
+    /**
+     * Tolak reservasi anggota: status -> rejected (stok tidak berubah).
+     */
+    public function reject(Borrowing $borrowing)
+    {
+        if ($borrowing->status !== 'pending') {
+            return back()->with('error', 'Hanya reservasi yang masih menunggu yang bisa ditolak.');
+        }
+
+        $borrowing->update(['status' => 'rejected']);
+
+        return back()->with('success', "Reservasi {$borrowing->borrow_number} ditolak.");
     }
 }

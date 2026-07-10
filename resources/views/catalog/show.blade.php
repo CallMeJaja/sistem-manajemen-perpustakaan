@@ -72,11 +72,36 @@
                     </div>
                 </div>
 
+                @error('book')
+                    <div class="alert alert-danger mt-3 mb-0 small"><i class="bi bi-exclamation-circle me-2"></i>{{ $message }}</div>
+                @enderror
+
                 @if ($book->available_stock > 0)
-                    <div class="alert alert-success mt-3 mb-0 small">
-                        <i class="bi bi-info-circle me-2"></i>
-                        Buku ini tersedia. Silakan hubungi petugas perpustakaan untuk melakukan peminjaman.
-                    </div>
+                    @auth
+                        @if (auth()->user()->isMember())
+                            <form method="POST" action="{{ route('catalog.reserve', $book) }}" class="mt-3 mb-0"
+                                  onsubmit="return confirm('Ajukan reservasi untuk buku ini?')">
+                                @csrf
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-bookmark-plus me-1"></i>Ajukan Reservasi
+                                </button>
+                                <span class="text-muted small ms-2">Diproses petugas, lalu ambil buku di perpustakaan.</span>
+                            </form>
+                        @else
+                            <div class="alert alert-info mt-3 mb-0 small">
+                                <i class="bi bi-info-circle me-2"></i>Anda masuk sebagai admin. Kelola peminjaman melalui panel admin.
+                            </div>
+                        @endif
+                    @endauth
+                    @guest
+                        <div class="alert alert-success mt-3 mb-0 small d-flex align-items-center justify-content-between flex-wrap gap-2">
+                            <span><i class="bi bi-info-circle me-2"></i>Buku tersedia. Masuk sebagai anggota untuk reservasi online.</span>
+                            <span>
+                                <a href="{{ route('login') }}" class="btn btn-sm btn-outline-primary">Masuk</a>
+                                <a href="{{ route('register') }}" class="btn btn-sm btn-primary">Daftar</a>
+                            </span>
+                        </div>
+                    @endguest
                 @else
                     <div class="alert alert-warning mt-3 mb-0 small">
                         <i class="bi bi-exclamation-triangle me-2"></i>

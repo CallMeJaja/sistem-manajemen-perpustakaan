@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreBookRequest;
+use App\Http\Requests\UpdateBookRequest;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -39,19 +41,9 @@ class BookController extends Controller
         return view('books.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreBookRequest $request)
     {
-        $validated = $request->validate([
-            'title'       => ['required', 'string', 'max:255'],
-            'author'      => ['required', 'string', 'max:255'],
-            'publisher'   => ['required', 'string', 'max:255'],
-            'isbn'        => ['nullable', 'string', 'max:20', 'unique:books,isbn'],
-            'category'    => ['required', 'string', 'max:100'],
-            'year'        => ['required', 'integer', 'min:1900', 'max:' . date('Y')],
-            'total_stock' => ['required', 'integer', 'min:1'],
-            'location'    => ['nullable', 'string', 'max:100'],
-            'cover_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
-        ]);
+        $validated = $request->validated();
 
         $validated['available_stock'] = $validated['total_stock'];
 
@@ -74,19 +66,9 @@ class BookController extends Controller
         return view('books.edit', compact('book'));
     }
 
-    public function update(Request $request, Book $book)
+    public function update(UpdateBookRequest $request, Book $book)
     {
-        $validated = $request->validate([
-            'title'       => ['required', 'string', 'max:255'],
-            'author'      => ['required', 'string', 'max:255'],
-            'publisher'   => ['required', 'string', 'max:255'],
-            'isbn'        => ['nullable', 'string', 'max:20', 'unique:books,isbn,' . $book->id],
-            'category'    => ['required', 'string', 'max:100'],
-            'year'        => ['required', 'integer', 'min:1900', 'max:' . date('Y')],
-            'total_stock' => ['required', 'integer', 'min:1'],
-            'location'    => ['nullable', 'string', 'max:100'],
-            'cover_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
-        ]);
+        $validated = $request->validated();
 
         $stockDiff = $validated['total_stock'] - $book->total_stock;
         $validated['available_stock'] = max(0, $book->available_stock + $stockDiff);
