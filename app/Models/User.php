@@ -52,4 +52,17 @@ class User extends Authenticatable
     {
         return $this->role === 'admin';
     }
+
+    public function isMember(): bool
+    {
+        return $this->role === 'member';
+    }
+
+    /**
+     * Akun anggota perpustakaan yang terhubung dengan user ini (jika role member).
+     */
+    public function member()
+    {
+        return $this->hasOne(Member::class);
+    }
 }
