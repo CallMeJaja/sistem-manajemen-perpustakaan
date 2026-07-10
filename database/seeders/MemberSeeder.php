@@ -222,6 +222,7 @@ class MemberSeeder extends Seeder
                 'username' => 'anggota_demo',
                 'password' => Hash::make('password'),
                 'role'     => 'member',
+                'email_verified_at' => now(),
             ]
         );
 

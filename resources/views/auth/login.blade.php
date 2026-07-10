@@ -45,6 +45,19 @@
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
+            @error('verification')
+                <div class="alert alert-warning d-flex align-items-start gap-2">
+                    <i class="bi bi-exclamation-triangle mt-1"></i>
+                    <div>
+                        {{ $message }}
+                        <br>
+                        <a href="{{ route('verification.notice') }}" class="alert-link small">
+                            <i class="bi bi-envelope me-1"></i>Kirim Ulang Email Verifikasi
+                        </a>
+                    </div>
+                </div>
+            @enderror
+
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input type="email" id="email" name="email"

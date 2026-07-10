@@ -71,13 +71,14 @@ graph TD
         UC1[Browse Catalog]
         UC2[Search Books]
         UC3[Login / Register]
-        UC4[Reserve Book]
-        UC5[View Member Dashboard]
-        UC6[Manage Books CRUD]
-        UC7[Manage Members CRUD]
-        UC8[Create Borrowing]
-        UC9[Approve / Reject Reservation]
-        UC10[Process Return]
+        UC4[Email Verification]
+        UC5[Reserve Book]
+        UC6[View Member Dashboard]
+        UC7[Manage Books CRUD]
+        UC8[Manage Members CRUD]
+        UC9[Create Borrowing]
+        UC10[Approve / Reject Reservation]
+        UC11[Process Return]
     end
 
     Public((Public)) --> UC1
@@ -87,12 +88,30 @@ graph TD
     Member --> UC2
     Member --> UC4
     Member --> UC5
-    Admin((Admin)) --> UC6
-    Admin --> UC7
+    Member --> UC6
+    Admin((Admin)) --> UC7
     Admin --> UC8
     Admin --> UC9
     Admin --> UC10
+    Admin --> UC11
 ```
+
+### Use Case Details
+
+| Use Case | Actor | Description | Route |
+|----------|-------|-------------|-------|
+| **Browse Catalog** | Public, Member | View all books with cover, title, author, and availability status | `/catalog` |
+| **Search Books** | Public, Member | Search books by title, author, or category; filter by availability | `/catalog?search=&category=&availability=` |
+| **Login / Register** | Public | Authenticate with email/password or create new member account | `/login`, `/register` |
+| **Email Verification** | Member | Verify email address via link sent to inbox before accessing member features | `/verify-email` |
+| **Reserve Book** | Member | Request to borrow a book; status set to "pending" until admin approval | `/catalog/{book}/reserve` |
+| **View Member Dashboard** | Member | View personal stats (pending, borrowed, returned, total fine) and active borrowings | `/member/dashboard` |
+| **Manage Books CRUD** | Admin | Create, read, update, delete books with cover image upload and stock management | `/books/*` |
+| **Manage Members CRUD** | Admin | Create, read, update, delete library members with borrowing history view | `/members/*` |
+| **Create Borrowing** | Admin | Record new borrowing with auto-generated borrow number (PJ/YYYYMMDD/XXXX) | `/borrowings/create` |
+| **Approve / Reject Reservation** | Admin | Review pending reservations, approve (stock -1) or reject (no stock change) | `/borrowings/{id}/approve`, `/borrowings/{id}/reject` |
+| **Process Return** | Admin | Record book return with automatic late fine calculation (Rp 1,000/day) | `/borrowings/{id}/return` |
+| **Print Receipt** | Admin | Generate printable borrowing receipt for member | `/borrowings/{id}/print` |
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -109,11 +128,12 @@ graph TD
 
 ### Authentication
 
-| Feature      | Description                                                                                        |
-| ------------ | -------------------------------------------------------------------------------------------------- |
-| **Login**    | Email/password authentication with role-based redirect (admin → dashboard, member → member portal) |
-| **Register** | New member registration with auto-generated username and member number                             |
-| **Logout**   | Session invalidation and token regeneration                                                        |
+| Feature                | Description                                                                                        |
+| ---------------------- | -------------------------------------------------------------------------------------------------- |
+| **Login**              | Email/password authentication with role-based redirect (admin → dashboard, member → member portal) |
+| **Register**           | New member registration with auto-generated username and member number                             |
+| **Email Verification** | Members must verify email before accessing member portal (admin auto-verified)                     |
+| **Logout**             | Session invalidation and token regeneration                                                        |
 
 ### Admin Dashboard
 
@@ -481,11 +501,12 @@ php artisan serve
 #### As Member
 
 1. **Register** — Go to `/register` to create a new account
-2. **Browse Catalog** — Visit `/catalog` to search and filter books
-3. **Reserve a Book** — Click on a book → Reserve, wait for admin approval
-4. **View Borrowings** — Check your borrowing history at Member Portal → Pinjaman Saya
-5. **Cancel Reservation** — If changed your mind, cancel pending reservations
-6. **Edit Profile** — Update your phone and address from Profile page
+2. **Verify Email** — Check inbox for verification link, click to verify (or check Mailpit at `https://sistem-manajemen-perpustakaan.ddev.site:8026`)
+3. **Browse Catalog** — Visit `/catalog` to search and filter books
+4. **Reserve a Book** — Click on a book → Reserve, wait for admin approval
+5. **View Borrowings** — Check your borrowing history at Member Portal → Pinjaman Saya
+6. **Cancel Reservation** — If changed your mind, cancel pending reservations
+7. **Edit Profile** — Update your phone and address from Profile page
 
 ### Routes Overview
 
@@ -511,6 +532,14 @@ php artisan serve
 | Method | URI       | Description                 |
 | ------ | --------- | --------------------------- |
 | POST   | `/logout` | Logout (invalidate session) |
+
+#### Email Verification Routes (middleware: auth)
+
+| Method | URI                                | Description               |
+| ------ | ---------------------------------- | ------------------------- |
+| GET    | `/verify-email`                    | Email verification prompt |
+| GET    | `/verify-email/{id}/{hash}`        | Verify email from link    |
+| POST   | `/email/verification-notification` | Resend verification email |
 
 #### Member Routes (middleware: auth, member)
 
@@ -548,6 +577,10 @@ sistem-manajemen-perpustakaan/
 ├── app/
 │   ├── Http/
 │   │   ├── Controllers/
+│   │   │   ├── Auth/
+│   │   │   │   ├── EmailVerificationPromptController.php  # Email verification prompt
+│   │   │   │   ├── ResendVerificationEmailController.php  # Resend verification email
+│   │   │   │   └── VerifyEmailController.php              # Process email verification
 │   │   │   ├── AuthController.php          # Login, logout, role-based redirect
 │   │   │   ├── BookController.php          # Book CRUD + cover image upload
 │   │   │   ├── BookReturnController.php    # Return processing + fine calculation
@@ -561,6 +594,7 @@ sistem-manajemen-perpustakaan/
 │   │   │   └── ReservationController.php   # Book reservation & cancel
 │   │   ├── Middleware/
 │   │   │   ├── AdminMiddleware.php         # Restrict to admin role
+│   │   │   ├── EnsureEmailIsVerified.php   # Check email verification status
 │   │   │   └── MemberMiddleware.php        # Restrict to member role
 │   │   └── Requests/
 │   │       ├── RegisterRequest.php         # Registration validation
@@ -642,8 +676,8 @@ sistem-manajemen-perpustakaan/
 ```mermaid
 flowchart TD
     A[Browser / View] -->|HTTP Request| B[Routes web.php]
-    B --> C[Middleware 2]
-    B --> D[Controller 11]
+    B --> C[Middleware 3]
+    B --> D[Controller 14]
     B --> E[Form Request 8]
     C --> F[Eloquent ORM Models 5]
     D --> F
@@ -785,14 +819,19 @@ This project is developed as part of the Web Programming 3 (Laravel) course fina
 
 ### Branching Strategy
 
-| Branch                    | Purpose                |
-| ------------------------- | ---------------------- |
-| `feature/m1-setup`        | Database & scaffolding |
-| `feature/m2-crud-buku`    | Book CRUD              |
-| `feature/m2-crud-anggota` | Member CRUD            |
-| `feature/m3-middleware`   | Auth middleware        |
-| `feature/m3-peminjaman`   | Borrowing system       |
-| `feature/m4-deployment`   | Final deployment       |
+| Branch | Purpose |
+|--------|---------|
+| `feature/migration-and-models` | Database migrations & Eloquent models |
+| `feature/authentication` | Login, logout, admin middleware |
+| `feature/books` | Book CRUD |
+| `feature/members` | Member CRUD |
+| `feature/borrowings` | Borrowing & return transactions |
+| `feature/dashboard` | Admin dashboard with statistics |
+| `feature/ui-improvements` | UI/UX improvements |
+| `feature/uas-m1-member-auth-schema` | M1: Inisialisasi — schema & auth |
+| `feature/uas-m2-member-portal` | M2: Core Features — member portal |
+| `feature/uas-m3-middleware-relasi` | M3: Integrasi — middleware & relations |
+| `feature/uas-m4-deployment-dokumentasi` | M4: Finalisasi — deployment & docs |
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

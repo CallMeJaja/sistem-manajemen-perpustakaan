@@ -50,8 +50,11 @@ class RegisterController extends Controller
         Auth::login($user);
         $request->session()->regenerate();
 
-        return redirect()->route('member.dashboard')
-            ->with('success', 'Pendaftaran berhasil. Selamat datang di GramediKu!');
+        // Kirim email verifikasi
+        $user->sendEmailVerificationNotification();
+
+        return redirect()->route('verification.notice')
+            ->with('success', 'Pendaftaran berhasil! Silakan cek email Anda untuk verifikasi.');
     }
 
     /**

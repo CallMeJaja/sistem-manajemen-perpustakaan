@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\{
     AuthController,
+    Auth\EmailVerificationPromptController,
+    Auth\ResendVerificationEmailController,
+    Auth\VerifyEmailController,
     BookController,
     BookReturnController,
     BorrowingController,
@@ -12,6 +15,7 @@ use App\Http\Controllers\{
     RegisterController,
     ReservationController
 };
+use App\Http\Middleware\EnsureEmailIsVerified;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn() => redirect()->route('catalog.index'));
@@ -29,12 +33,26 @@ Route::middleware('guest')->group(function () {
 // Logout untuk semua pengguna yang sudah login (admin & anggota).
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
+// Email Verification Routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/verify-email', EmailVerificationPromptController::class)
+        ->name('verification.notice');
+
+    Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
+        ->middleware(['signed', 'throttle:6,1'])
+        ->name('verification.verify');
+
+    Route::post('/email/verification-notification', [ResendVerificationEmailController::class, '__invoke'])
+        ->middleware('throttle:6,1')
+        ->name('verification.send');
+});
+
 // Reservasi buku oleh anggota (dari katalog).
 Route::post('/catalog/{book}/reserve', [ReservationController::class, 'store'])
-    ->middleware(['auth', 'member'])->name('catalog.reserve');
+    ->middleware(['auth', 'member', EnsureEmailIsVerified::class])->name('catalog.reserve');
 
 // Area Anggota (Member Portal).
-Route::middleware(['auth', 'member'])->prefix('member')->name('member.')->group(function () {
+Route::middleware(['auth', 'member', EnsureEmailIsVerified::class])->prefix('member')->name('member.')->group(function () {
     Route::get('/dashboard', [MemberPortalController::class, 'dashboard'])->name('dashboard');
     Route::get('/borrowings', [MemberPortalController::class, 'borrowings'])->name('borrowings');
     Route::get('/profile', [MemberPortalController::class, 'profile'])->name('profile');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,6 +25,16 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
+            $user = Auth::user();
+
+            // Cek apakah email sudah terverifikasi (khusus member)
+            if ($user->isMember() && $user instanceof MustVerifyEmail && !$user->hasVerifiedEmail()) {
+                Auth::logout();
+                return back()
+                    ->withErrors(['verification' => 'Email Anda belum diverifikasi. Silakan cek inbox atau kirim ulang email verifikasi.'])
+                    ->onlyInput('email');
+            }
+
             $request->session()->regenerate();
 
             return redirect()->intended($this->homeFor(Auth::user()));
