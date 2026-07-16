@@ -500,8 +500,8 @@ classDiagram
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/username/sistem-manajemen-perpustakaan.git
-cd sistem-manajemen-perpustakaan
+git clone https://github.com/CallMeJaja/gramediku.git
+cd gramediku
 
 # 2. Start DDEV (automatically configures PHP, MariaDB, Nginx)
 ddev start
@@ -519,15 +519,15 @@ ddev npm run build
 ddev artisan migrate --seed
 
 # 7. Access the application
-# → https://sistem-manajemen-perpustakaan.ddev.site
+# → https://gramediku.ddev.site
 ```
 
 #### Option 2: Manual Setup (Without DDEV)
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/username/sistem-manajemen-perpustakaan.git
-cd sistem-manajemen-perpustakaan
+git clone https://github.com/CallMeJaja/gramediku.git
+cd gramediku
 
 # 2. Install PHP dependencies
 composer install
@@ -542,7 +542,7 @@ php artisan key:generate
 #    DB_CONNECTION=mysql
 #    DB_HOST=127.0.0.1
 #    DB_PORT=3306
-#    DB_DATABASE=perpustakaan
+#    DB_DATABASE=gramediku
 #    DB_USERNAME=root
 #    DB_PASSWORD=
 
@@ -597,7 +597,7 @@ Semua 24 anggota dummy juga bisa login dengan format email `nama.depan@gramediku
 #### As Member
 
 1. **Register** — Go to `/register` to create a new account
-2. **Verify Email** — Check inbox for verification link, click to verify (or check Mailpit at `https://sistem-manajemen-perpustakaan.ddev.site:8026`)
+2. **Verify Email** — Check inbox for verification link, click to verify (or check Mailpit at `https://gramediku.ddev.site:8026`)
 3. **Browse Catalog** — Visit `/catalog` to search and filter books
 4. **Reserve a Book** — Click on a book → Reserve, wait for admin approval
 5. **View Borrowings** — Check your borrowing history at Member Portal → Pinjaman Saya
@@ -691,7 +691,7 @@ Panduan komprehensif tersedia di folder [`docs/user-guide/`](docs/user-guide/):
 ## Project Structure
 
 ```
-sistem-manajemen-perpustakaan/
+gramediku/
 ├── app/
 │   ├── Http/
 │   │   ├── Controllers/
