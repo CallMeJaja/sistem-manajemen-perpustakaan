@@ -32,7 +32,12 @@ class CatalogController extends Controller
             }
         }
 
-        $books      = $query->latest()->paginate(12)->withQueryString();
+        // Pagination limit
+        $perPage = $request->integer('per_page', 12);
+        $allowed = [10, 15, 20, 25, 50, 100];
+        $perPage = in_array($perPage, $allowed) ? $perPage : 12;
+
+        $books      = $query->latest()->paginate($perPage)->withQueryString();
         $categories = Book::select('category')->distinct()->orderBy('category')->pluck('category');
 
         return view('catalog.index', compact('books', 'categories'));
