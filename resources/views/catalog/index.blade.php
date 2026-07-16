@@ -49,7 +49,7 @@
 @endsection
 
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-3">
+<div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 mb-3">
     <div>
         @if(request()->hasAny(['search', 'category', 'availability']))
             <span class="text-muted small">
@@ -60,6 +60,19 @@
         @else
             <span class="text-muted small">Menampilkan <strong>{{ $books->total() }}</strong> koleksi buku</span>
         @endif
+    </div>
+    <div>
+        <form method="GET" action="{{ route('catalog.index') }}" class="d-flex align-items-center gap-2">
+            @if(request()->filled('search'))<input type="hidden" name="search" value="{{ request('search') }}">@endif
+            @if(request()->filled('category'))<input type="hidden" name="category" value="{{ request('category') }}">@endif
+            @if(request()->filled('availability'))<input type="hidden" name="availability" value="{{ request('availability') }}">@endif
+            <label class="text-muted small text-nowrap">Tampil:</label>
+            <select name="per_page" class="form-select form-select-sm" style="min-width: 70%;" onchange="this.form.submit()">
+                @foreach([10, 15, 20, 25, 50, 100] as $n)
+                    <option value="{{ $n }}" @selected(request('per_page', 12) == $n)>{{ $n }}</option>
+                @endforeach
+            </select>
+        </form>
     </div>
 </div>
 

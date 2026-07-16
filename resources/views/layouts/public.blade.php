@@ -49,6 +49,9 @@
         @yield('hero')
 
         <div class="container py-4">
+            <x-alert type="success" session="success" dismissible />
+            <x-alert type="danger" session="error" dismissible />
+
             @yield('content')
         </div>
     </div>

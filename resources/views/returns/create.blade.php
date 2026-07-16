@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="d-flex align-items-center gap-2 mb-4">
-    <a href="{{ route('borrowings.index') }}" class="btn btn-sm btn-outline-secondary">
+    <a href="{{ route('returns.index') }}" class="btn btn-sm btn-outline-secondary">
         <i class="bi bi-arrow-left"></i>
     </a>
     <div>
@@ -86,7 +86,7 @@
                         <button type="submit" class="btn btn-success">
                             <i class="bi bi-arrow-return-left me-1"></i>Konfirmasi Pengembalian
                         </button>
-                        <a href="{{ route('borrowings.index') }}" class="btn btn-outline-secondary">Batal</a>
+                        <a href="{{ route('returns.index') }}" class="btn btn-outline-secondary">Batal</a>
                     </div>
                 </form>
             </div>

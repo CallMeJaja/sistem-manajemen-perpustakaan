@@ -14,7 +14,8 @@
                     <option value="pending" @selected(request('status') === 'pending')>Menunggu</option>
                     <option value="borrowed" @selected(request('status') === 'borrowed')>Sedang Dipinjam</option>
                     <option value="returned" @selected(request('status') === 'returned')>Dikembalikan</option>
-                    <option value="rejected" @selected(request('status') === 'rejected')>Ditolak/Batal</option>
+                    <option value="rejected" @selected(request('status') === 'rejected')>Ditolak</option>
+                    <option value="cancelled" @selected(request('status') === 'cancelled')>Dibatalkan</option>
                 </select>
             </div>
         </form>
@@ -40,15 +41,20 @@
                                 'borrowed' => ['Dipinjam', 'bg-warning-subtle text-warning-emphasis'],
                                 'returned' => ['Kembali', 'bg-success-subtle text-success-emphasis'],
                                 'rejected' => ['Ditolak', 'bg-danger-subtle text-danger-emphasis'],
+                                'cancelled' => ['Dibatalkan', 'bg-secondary-subtle text-secondary-emphasis'],
                             ];
                             [$lbl, $cls] = $map[$b->status] ?? [ucfirst($b->status), 'bg-secondary-subtle'];
                         @endphp
                         <tr>
                             <td class="small fw-semibold">{{ $b->borrow_number }}</td>
                             <td>{{ $b->book->title }}</td>
-                            <td class="small text-muted">{{ $b->borrow_date->format('d/m/Y') }}</td>
-                            <td class="small">{{ $b->due_date->format('d/m/Y') }}</td>
-                            <td class="text-center"><span class="badge {{ $cls }}">{{ $lbl }}</span></td>
+                            <td class="small text-muted">{{ $b->borrow_date ? $b->borrow_date->translatedFormat('d/m/Y') : '-' }}</td>
+                            <td class="small">{{ $b->due_date ? $b->due_date->translatedFormat('d/m/Y') : '-' }}</td>
+                            <td class="text-center"><span class="badge {{ $cls }}">{{ $lbl }}</span>
+                                @if ($b->status === 'rejected' && $b->rejection_reason)
+                                    <br><small class="text-muted d-block mt-1">Alasan: {{ $b->rejection_reason }}</small>
+                                @endif
+                            </td>
                             <td class="text-center small">
                                 @if ($b->return && $b->return->fine_amount > 0)
                                     <span class="text-danger">Rp {{ number_format($b->return->fine_amount, 0, ',', '.') }}</span>
@@ -68,9 +74,8 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="text-center py-5 text-muted">
-                                <i class="bi bi-journal-x fs-1 d-block mb-2"></i>
-                                Belum ada pinjaman. <a href="{{ route('catalog.index') }}">Cari buku</a>.
+                            <td colspan="7">
+                                <x-empty-state icon="bi-journal-x" message="Belum ada pinjaman." />
                             </td>
                         </tr>
                     @endforelse
@@ -78,9 +83,7 @@
             </table>
         </div>
 
-        @if ($borrowings->hasPages())
-            <div class="mt-3">{{ $borrowings->links('pagination.custom') }}</div>
-        @endif
+        <x-pagination-wrap :paginator="$borrowings" />
     </div>
 </div>
 @endsection

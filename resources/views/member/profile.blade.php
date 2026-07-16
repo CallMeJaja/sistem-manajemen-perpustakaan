@@ -18,7 +18,7 @@
                     <dt class="col-5 text-muted">Email</dt>
                     <dd class="col-7">{{ $member->email }}</dd>
                     <dt class="col-5 text-muted">Bergabung</dt>
-                    <dd class="col-7">{{ $member->join_date->format('d/m/Y') }}</dd>
+                    <dd class="col-7">{{ $member->join_date->translatedFormat('d/m/Y') }}</dd>
                 </dl>
             </div>
         </div>
@@ -31,6 +31,21 @@
                 <form method="POST" action="{{ route('member.profile.update') }}">
                     @csrf
                     @method('PUT')
+
+                    <div class="mb-3">
+                        <label class="form-label">Nama Lengkap</label>
+                        <input type="text" name="name"
+                               class="form-control @error('name') is-invalid @enderror"
+                               value="{{ old('name', $member->name) }}" required>
+                        @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        <div class="form-text">Nama akan diperbarui di profil dan akun login Anda.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" value="{{ $member->email }}" disabled>
+                        <div class="form-text">Email tidak dapat diubah karena digunakan sebagai akun login.</div>
+                    </div>
 
                     <div class="mb-3">
                         <label class="form-label">No. Telepon</label>

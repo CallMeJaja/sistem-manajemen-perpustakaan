@@ -16,16 +16,7 @@
     <div class="card-body">
         <form method="GET" action="{{ route('members.index') }}" class="row g-2 mb-3">
             <div class="col-md-6">
-                <div class="input-group">
-                    <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
-                    <input
-                        type="text"
-                        name="search"
-                        class="form-control border-start-0"
-                        placeholder="Cari nama, email, nomor anggota..."
-                        value="{{ request('search') }}"
-                    >
-                </div>
+                <x-search-bar placeholder="Cari nama, email, nomor anggota..." />
             </div>
             <div class="col-auto">
                 <button type="submit" class="btn btn-outline-primary">Cari</button>
@@ -44,8 +35,9 @@
                         <th>Email</th>
                         <th>Telepon</th>
                         <th>Bergabung</th>
-                        <th class="text-center">Status</th>
-                        <th class="text-center" style="width: 120px">Aksi</th>
+                        <th class="text-center">Status Akun</th>
+                        <th class="text-center">Peminjaman</th>
+                        <th class="text-center" style="width: 100px">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,6 +49,20 @@
                             <td class="text-muted small">{{ $member->phone ?? '-' }}</td>
                             <td class="text-muted small">{{ $member->join_date->format('d/m/Y') }}</td>
                             <td class="text-center">
+                                @php $status = $member->user?->status; @endphp
+                                @if ($status === 'approved')
+                                    <span class="badge bg-success-subtle text-success-emphasis">Disetujui</span>
+                                @elseif ($status === 'pending')
+                                    <span class="badge bg-warning-subtle text-warning-emphasis">Pending</span>
+                                @elseif ($status === 'rejected')
+                                    <span class="badge bg-danger-subtle text-danger-emphasis">Ditolak</span>
+                                @elseif ($member->user)
+                                    <span class="badge bg-secondary-subtle text-secondary-emphasis">Tanpa Status</span>
+                                @else
+                                    <span class="badge bg-light text-muted">Belum Ada Akun</span>
+                                @endif
+                            </td>
+                            <td class="text-center">
                                 @if ($member->hasActiveBorrowing())
                                     <span class="badge bg-warning-subtle text-warning-emphasis">Meminjam</span>
                                 @else
@@ -64,30 +70,62 @@
                                 @endif
                             </td>
                             <td class="text-center">
-                                <div class="btn-group-action">
-                                    <a href="{{ route('members.show', $member) }}" class="btn btn-sm btn-outline-info" title="Detail">
-                                        <i class="bi bi-eye"></i>
-                                    </a>
-                                    <a href="{{ route('members.edit', $member) }}" class="btn btn-sm btn-outline-primary" title="Edit">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <form method="POST" action="{{ route('members.destroy', $member) }}"
-                                          onsubmit="return confirm('Hapus anggota ini?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus"
-                                            {{ $member->hasActiveBorrowing() ? '' : '' }}>
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </form>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-light border dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Aksi
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end shadow-sm text-sm">
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('members.show', $member) }}">
+                                                <i class="bi bi-eye me-2 text-primary"></i> Lihat Detail
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('members.edit', $member) }}">
+                                                <i class="bi bi-pencil me-2 text-secondary"></i> Edit
+                                            </a>
+                                        </li>
+
+                                        @if ($member->user && $member->user->status === 'pending')
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li>
+                                                <form method="POST" action="{{ route('members.approve', $member) }}" class="m-0">
+                                                    @csrf
+                                                    <button type="submit" class="dropdown-item">
+                                                        <i class="bi bi-check-lg me-2 text-success"></i> Setujui Akun
+                                                    </button>
+                                                </form>
+                                            </li>
+                                            <li>
+                                                <form method="POST" action="{{ route('members.reject', $member) }}" class="m-0">
+                                                    @csrf
+                                                    <button type="submit" class="dropdown-item" onclick="return confirm('Yakin menolak akun anggota ini?')">
+                                                        <i class="bi bi-x-lg me-2 text-danger"></i> Tolak Akun
+                                                    </button>
+                                                </form>
+                                            </li>
+                                        @endif
+
+                                        @if (!$member->user || $member->user->status !== 'pending')
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li>
+                                                <form method="POST" action="{{ route('members.destroy', $member) }}" class="m-0">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="dropdown-item text-danger" {{ $member->hasActiveBorrowing() ? 'disabled' : '' }} onclick="return confirm('Hapus anggota ini?')">
+                                                        <i class="bi bi-trash me-2"></i> Hapus
+                                                    </button>
+                                                </form>
+                                            </li>
+                                        @endif
+                                    </ul>
                                 </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="text-center py-5 text-muted">
-                                <i class="bi bi-people fs-1 d-block mb-2"></i>
-                                Belum ada data anggota.
+                                    <td colspan="8">
+                                <x-empty-state icon="bi-people" message="Belum ada data anggota." />
                             </td>
                         </tr>
                     @endforelse
@@ -95,11 +133,7 @@
             </table>
         </div>
 
-        @if ($members->hasPages())
-            <div class="mt-3">
-                {{ $members->links('pagination.custom') }}
-            </div>
-        @endif
+        <x-pagination-wrap :paginator="$members" />
     </div>
 </div>
 @endsection

@@ -25,7 +25,7 @@ body {
     top: 0; left: 0;
     width: 240px;
     height: 100vh;
-    background: linear-gradient(160deg, #1e3a5f 0%, #0f2444 100%);
+    background: #1e3a5f;
     display: flex;
     flex-direction: column;
     z-index: 1050;
@@ -72,7 +72,7 @@ body {
 
 .sidebar-brand-icon {
     width: 36px; height: 36px;
-    background: linear-gradient(135deg, #3b82f6, #60a5fa);
+    background: #1e3a5f;
     border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
     font-size: 1rem;
@@ -155,7 +155,7 @@ body {
 
 .sidebar-user-avatar {
     width: 32px; height: 32px;
-    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    background: #1e3a5f;
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     color: #fff;
@@ -305,7 +305,7 @@ body {
    PUBLIC LAYOUT
    ========================================= */
 .public-navbar {
-    background: linear-gradient(135deg, #1e3a5f 0%, #0f2444 100%);
+    background: #1e3a5f;
     padding: 0;
     border-bottom: none;
 }
@@ -318,7 +318,7 @@ body {
 }
 
 .public-hero {
-    background: linear-gradient(135deg, #1e3a5f 0%, #1e40af 60%, #2563eb 100%);
+    background: #1e3a5f;
     padding: 48px 0 56px;
     color: #fff;
     margin-bottom: 0;
@@ -417,3 +417,25 @@ body {
 .page-link:hover { background: #f1f5f9; color: #1e293b; }
 .page-item.active .page-link { background: #2563eb; border-color: #2563eb; }
 .page-item.disabled .page-link { color: #cbd5e1; }
+
+/* =========================================
+   AUTH LAYOUT
+   ========================================= */
+.auth-card {
+    width: 100%;
+    max-width: 400px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    padding: 36px 32px;
+}
+
+.auth-logo {
+    width: 52px; height: 52px;
+    background: #1e3a5f;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+    color: #fff;
+    margin: 0 auto 16px;
+}

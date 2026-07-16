@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @stack('styles')
 </head>
-<body>
+<body style="background:#f8fafc;">
 
     {{-- SIDEBAR OVERLAY --}}
     <div id="sidebarOverlay" class="sidebar-overlay"></div>
@@ -48,10 +48,20 @@
             </a>
 
             <div class="sidebar-label mt-2">Transaksi</div>
-
+            
             <a href="{{ route('borrowings.index') }}"
-               class="sidebar-link {{ request()->routeIs('borrowings.*') || request()->routeIs('returns.*') ? 'active' : '' }}">
-                <i class="bi bi-arrow-left-right"></i> Peminjaman
+               class="sidebar-link {{ request()->routeIs('borrowings.index') || request()->routeIs('borrowings.show') || request()->routeIs('borrowings.create') ? 'active' : '' }}">
+                <i class="bi bi-arrow-up-right-circle"></i> Peminjaman Aktif
+            </a>
+            
+            <a href="{{ route('returns.index') }}"
+               class="sidebar-link {{ request()->routeIs('returns.*') ? 'active' : '' }}">
+                <i class="bi bi-arrow-down-left-circle"></i> Pengembalian
+            </a>
+            
+            <a href="{{ route('borrowings.history') }}"
+               class="sidebar-link {{ request()->routeIs('borrowings.history') ? 'active' : '' }}">
+                <i class="bi bi-clock-history"></i> Riwayat Transaksi
             </a>
         </nav>
 
@@ -90,19 +100,8 @@
         </div>
 
         <div class="main-content">
-            @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show mb-3" role="alert">
-                    <i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            @endif
-
-            @if (session('error'))
-                <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
-                    <i class="bi bi-exclamation-circle-fill me-2"></i>{{ session('error') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            @endif
+            <x-alert type="success" session="success" dismissible />
+            <x-alert type="danger" session="error" dismissible />
 
             @yield('content')
         </div>
