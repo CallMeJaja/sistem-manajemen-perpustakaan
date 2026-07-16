@@ -25,14 +25,37 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
+            /** @var \App\Models\User $user */
             $user = Auth::user();
 
-            // Cek apakah email sudah terverifikasi (khusus member)
-            if ($user->isMember() && $user instanceof MustVerifyEmail && !$user->hasVerifiedEmail()) {
-                Auth::logout();
-                return back()
-                    ->withErrors(['verification' => 'Email Anda belum diverifikasi. Silakan cek inbox atau kirim ulang email verifikasi.'])
-                    ->onlyInput('email');
+            if ($user->isMember()) {
+                if ($user instanceof MustVerifyEmail && !$user->hasVerifiedEmail()) {
+                    Auth::logout();
+                    return back()
+                        ->withErrors(['verification' => 'Email Anda belum diverifikasi. Silakan cek inbox atau kirim ulang email verifikasi.'])
+                        ->onlyInput('email');
+                }
+
+                if ($user->isPending()) {
+                    Auth::logout();
+                    return back()
+                        ->withErrors(['approval' => 'Akun Anda masih menunggu persetujuan admin. Email sudah terverifikasi, tunggu hingga admin menyetujui.'])
+                        ->onlyInput('email');
+                }
+
+                if ($user->isRejected()) {
+                    Auth::logout();
+                    return back()
+                        ->withErrors(['approval' => 'Akun Anda ditolak oleh admin. Silakan hubungi perpustakaan untuk informasi lebih lanjut.'])
+                        ->onlyInput('email');
+                }
+
+                if (!$user->isApproved()) {
+                    Auth::logout();
+                    return back()
+                        ->with('error', 'Terjadi kesalahan pada status akun Anda.')
+                        ->onlyInput('email');
+                }
             }
 
             $request->session()->regenerate();
@@ -58,7 +81,7 @@ class AuthController extends Controller
     /**
      * Halaman tujuan setelah login sesuai peran pengguna.
      */
-    private function homeFor($user): string
+    private function homeFor(\App\Models\User $user): string
     {
         return $user->isAdmin()
             ? route('dashboard')

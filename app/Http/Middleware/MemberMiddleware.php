@@ -11,10 +11,18 @@ class MemberMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (! Auth::check() || ! Auth::user()->isMember()) {
-            // Admin yang nyasar ke area anggota diarahkan ke dashboard-nya;
-            // tamu diarahkan untuk login.
-            if (Auth::check() && Auth::user()->isAdmin()) {
+        if (!Auth::check()) {
+            return redirect()->route('login')->withErrors([
+                'email' => 'Silakan masuk sebagai anggota untuk mengakses halaman ini.',
+            ]);
+        }
+
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        if (!$user->isMember()) {
+            // Admin yang nyasar ke area anggota diarahkan ke dashboard-nya.
+            if ($user->isAdmin()) {
                 return redirect()->route('dashboard');
             }
 

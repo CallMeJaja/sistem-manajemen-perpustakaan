@@ -9,7 +9,10 @@ class ReserveRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user() !== null && $this->user()->isMember();
+        /** @var \App\Models\User|null $user */
+        $user = $this->user();
+
+        return $user !== null && $user->isMember();
     }
 
     public function rules(): array
@@ -25,6 +28,7 @@ class ReserveRequest extends FormRequest
     public function withValidator(Validator $validator): void
     {
         $validator->after(function (Validator $validator) {
+            /** @var \App\Models\Book|null $book */
             $book = $this->route('book');
 
             if (! $book || $book->available_stock < 1) {
@@ -32,7 +36,9 @@ class ReserveRequest extends FormRequest
                 return;
             }
 
-            $member = optional($this->user())->member;
+            /** @var \App\Models\User|null $authUser */
+            $authUser = $this->user();
+            $member = optional($authUser)->member;
 
             if (! $member) {
                 $validator->errors()->add('book', 'Akun Anda belum terhubung dengan data anggota.');

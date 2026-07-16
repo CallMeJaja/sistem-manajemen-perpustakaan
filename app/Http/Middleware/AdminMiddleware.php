@@ -11,7 +11,16 @@ class AdminMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check() || !Auth::user()->isAdmin()) {
+        if (!Auth::check()) {
+            return redirect()->route('login')->withErrors([
+                'email' => 'Anda tidak memiliki akses ke halaman ini.',
+            ]);
+        }
+
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        if (!$user->isAdmin()) {
             return redirect()->route('login')->withErrors([
                 'email' => 'Anda tidak memiliki akses ke halaman ini.',
             ]);

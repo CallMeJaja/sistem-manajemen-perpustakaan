@@ -14,13 +14,14 @@ class UpdateBookRequest extends FormRequest
 
     public function rules(): array
     {
-        $bookId = $this->route('book')->id;
+        /** @var \App\Models\Book $book */
+        $book = $this->route('book');
 
         return [
             'title'       => ['required', 'string', 'max:255'],
             'author'      => ['required', 'string', 'max:255'],
             'publisher'   => ['required', 'string', 'max:255'],
-            'isbn'        => ['nullable', 'string', 'max:20', Rule::unique('books', 'isbn')->ignore($bookId)],
+            'isbn'        => ['nullable', 'string', 'max:20', Rule::unique('books', 'isbn')->ignore($book->id)],
             'category'    => ['required', 'string', 'max:100'],
             'year'        => ['required', 'integer', 'min:1900', 'max:' . date('Y')],
             'total_stock' => ['required', 'integer', 'min:1'],

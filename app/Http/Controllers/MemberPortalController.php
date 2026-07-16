@@ -58,11 +58,21 @@ class MemberPortalController extends Controller
         $member = $this->member();
 
         $data = $request->validate([
+            'name'    => ['required', 'string', 'max:255'],
             'phone'   => ['nullable', 'string', 'max:20'],
             'address' => ['nullable', 'string', 'max:500'],
         ]);
 
-        $member->update($data);
+        // Update name di member dan user sekaligus
+        $member->update([
+            'name'    => $data['name'],
+            'phone'   => $data['phone'],
+            'address' => $data['address'],
+        ]);
+
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $user->update(['name' => $data['name']]);
 
         return redirect()->route('member.profile')->with('success', 'Profil berhasil diperbarui.');
     }
@@ -70,9 +80,11 @@ class MemberPortalController extends Controller
     /**
      * Ambil data anggota milik user yang sedang login.
      */
-    private function member()
+    private function member(): \App\Models\Member
     {
-        $member = Auth::user()->member;
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $member = $user->member;
 
         abort_unless($member, 403, 'Akun Anda belum terhubung dengan data anggota.');
 
