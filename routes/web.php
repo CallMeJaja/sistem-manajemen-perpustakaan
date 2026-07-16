@@ -16,6 +16,7 @@ use App\Http\Controllers\{
     ReservationController
 };
 use App\Http\Middleware\EnsureEmailIsVerified;
+use App\Http\Middleware\EnsureMemberIsApproved;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn() => redirect()->route('catalog.index'));
@@ -49,10 +50,10 @@ Route::middleware(['auth'])->group(function () {
 
 // Reservasi buku oleh anggota (dari katalog).
 Route::post('/catalog/{book}/reserve', [ReservationController::class, 'store'])
-    ->middleware(['auth', 'member', EnsureEmailIsVerified::class])->name('catalog.reserve');
+    ->middleware(['auth', 'member', EnsureEmailIsVerified::class, EnsureMemberIsApproved::class])->name('catalog.reserve');
 
-// Area Anggota (Member Portal).
-Route::middleware(['auth', 'member', EnsureEmailIsVerified::class])->prefix('member')->name('member.')->group(function () {
+// Area Anggota (Member Portal) — email verified + admin approved.
+Route::middleware(['auth', 'member', EnsureEmailIsVerified::class, EnsureMemberIsApproved::class])->prefix('member')->name('member.')->group(function () {
     Route::get('/dashboard', [MemberPortalController::class, 'dashboard'])->name('dashboard');
     Route::get('/borrowings', [MemberPortalController::class, 'borrowings'])->name('borrowings');
     Route::get('/profile', [MemberPortalController::class, 'profile'])->name('profile');
@@ -65,6 +66,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('books', BookController::class);
     Route::resource('members', MemberController::class);
+    Route::post('members/{member}/approve', [MemberController::class, 'approve'])->name('members.approve');
+    Route::post('members/{member}/reject', [MemberController::class, 'reject'])->name('members.reject');
     Route::resource('borrowings', BorrowingController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
     Route::post('borrowings/{borrowing}/approve', [BorrowingController::class, 'approve'])->name('borrowings.approve');
     Route::post('borrowings/{borrowing}/reject', [BorrowingController::class, 'reject'])->name('borrowings.reject');

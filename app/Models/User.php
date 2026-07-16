@@ -23,6 +23,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'role',
+        'status',
+        'approved_at',
+        'approved_by',
     ];
 
     /**
@@ -44,7 +47,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'approved_at'       => 'datetime',
+            'password'          => 'hashed',
         ];
     }
 
@@ -58,11 +62,34 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->role === 'member';
     }
 
+    public function isPending(): bool
+    {
+        return $this->status === 'pending';
+    }
+
+    public function isApproved(): bool
+    {
+        return $this->status === 'approved';
+    }
+
+    public function isRejected(): bool
+    {
+        return $this->status === 'rejected';
+    }
+
     /**
      * Akun anggota perpustakaan yang terhubung dengan user ini (jika role member).
      */
     public function member()
     {
         return $this->hasOne(Member::class);
+    }
+
+    /**
+     * Admin yang menyetujui/menolak akun ini.
+     */
+    public function approvedBy()
+    {
+        return $this->belongsTo(User::class, 'approved_by');
     }
 }

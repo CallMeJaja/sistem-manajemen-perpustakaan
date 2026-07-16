@@ -6,6 +6,7 @@ use App\Http\Requests\StoreMemberRequest;
 use App\Http\Requests\UpdateMemberRequest;
 use App\Models\Member;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MemberController extends Controller
 {
@@ -81,5 +82,59 @@ class MemberController extends Controller
         $member->delete();
 
         return redirect()->route('members.index')->with('success', 'Anggota berhasil dihapus.');
+    }
+
+    /**
+     * Admin menyetujui akun member yang masih pending.
+     */
+    public function approve(Member $member)
+    {
+        $user = $member->user;
+
+        if (!$user) {
+            return redirect()->route('members.index')
+                ->with('error', 'Anggota ini belum memiliki akun pengguna.');
+        }
+
+        if ($user->isApproved()) {
+            return redirect()->route('members.index')
+                ->with('info', 'Akun anggota ini sudah disetujui sebelumnya.');
+        }
+
+        $user->update([
+            'status'      => 'approved',
+            'approved_at' => now(),
+            'approved_by' => Auth::id(),
+        ]);
+
+        return redirect()->route('members.index')
+            ->with('success', "Akun {$member->name} berhasil disetujui.");
+    }
+
+    /**
+     * Admin menolak akun member yang masih pending.
+     */
+    public function reject(Member $member)
+    {
+        $user = $member->user;
+
+        if (!$user) {
+            return redirect()->route('members.index')
+                ->with('error', 'Anggota ini belum memiliki akun pengguna.');
+        }
+
+        if ($user->isRejected()) {
+            return redirect()->route('members.index')
+                ->with('info', 'Akun anggota ini sudah ditolak sebelumnya.');
+        }
+
+        $user->update([
+            'status'      => 'rejected',
+            'approved_at' => null,
+            'approved_by' => Auth::id(),
+        ]);
+
+        return redirect()->route('members.index')
+            ->with('success', "Akun {$member->name} telah ditolak.");
     }
 }

@@ -15,7 +15,9 @@ class ReservationController extends Controller
      */
     public function store(ReserveRequest $request, Book $book)
     {
-        $member = Auth::user()->member;
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $member = $user->member;
 
         Borrowing::create([
             'borrow_number' => Borrowing::generateBorrowNumber(),
@@ -35,7 +37,9 @@ class ReservationController extends Controller
      */
     public function cancel(Borrowing $borrowing)
     {
-        $member = Auth::user()->member;
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $member = $user->member;
 
         abort_unless($member && $borrowing->member_id === $member->id, 403);
 
@@ -43,7 +47,7 @@ class ReservationController extends Controller
             return back()->with('error', 'Hanya reservasi yang masih menunggu yang bisa dibatalkan.');
         }
 
-        $borrowing->update(['status' => 'rejected']);
+        $borrowing->update(['status' => 'cancelled']);
 
         return back()->with('success', 'Reservasi berhasil dibatalkan.');
     }

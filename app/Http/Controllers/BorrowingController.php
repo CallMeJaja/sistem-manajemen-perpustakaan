@@ -132,7 +132,10 @@ class BorrowingController extends Controller
             return back()->with('error', 'Hanya reservasi yang masih menunggu yang bisa ditolak.');
         }
 
-        $borrowing->update(['status' => 'rejected']);
+        $borrowing->update([
+            'status'            => 'rejected',
+            'rejection_reason'  => request('rejection_reason'),
+        ]);
 
         return back()->with('success', "Reservasi {$borrowing->borrow_number} ditolak.");
     }
