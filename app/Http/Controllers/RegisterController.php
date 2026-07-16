@@ -15,7 +15,9 @@ class RegisterController extends Controller
     public function showRegistrationForm()
     {
         if (Auth::check()) {
-            return redirect()->route('member.dashboard');
+            /** @var \App\Models\User $authUser */
+            $authUser = Auth::user();
+            return redirect($authUser->isAdmin() ? route('dashboard') : route('member.dashboard'));
         }
 
         return view('auth.register');
@@ -32,6 +34,7 @@ class RegisterController extends Controller
                 'email'    => $data['email'],
                 'password' => Hash::make($data['password']),
                 'role'     => 'member',
+                'status'   => 'pending',
             ]);
 
             Member::create([
@@ -47,14 +50,11 @@ class RegisterController extends Controller
             return $user;
         });
 
-        Auth::login($user);
-        $request->session()->regenerate();
-
         // Kirim email verifikasi
         $user->sendEmailVerificationNotification();
 
-        return redirect()->route('verification.notice')
-            ->with('success', 'Pendaftaran berhasil! Silakan cek email Anda untuk verifikasi.');
+        return redirect()->route('login')
+            ->with('success', 'Pendaftaran berhasil! Silakan cek email Anda untuk memverifikasi akun sebelum dapat login.');
     }
 
     /**

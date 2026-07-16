@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\{
     AuthController,
-    Auth\EmailVerificationPromptController,
+    Auth\ForgotPasswordController,
+    Auth\ResetPasswordController,
     Auth\ResendVerificationEmailController,
     Auth\VerifyEmailController,
     BookController,
@@ -26,29 +27,36 @@ Route::get('/catalog/{book}', [CatalogController::class, 'show'])->name('catalog
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'login'])
+        ->middleware('throttle:5,1');
     Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-    Route::post('/register', [RegisterController::class, 'register']);
-});
-
-// Logout untuk semua pengguna yang sudah login (admin & anggota).
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
-
-// Email Verification Routes
-Route::middleware(['auth'])->group(function () {
-    Route::get('/verify-email', EmailVerificationPromptController::class)
-        ->name('verification.notice');
+    Route::post('/register', [RegisterController::class, 'register'])
+        ->middleware('throttle:3,1');
 
     Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
         ->middleware(['signed', 'throttle:6,1'])
         ->name('verification.verify');
 
-    Route::post('/email/verification-notification', [ResendVerificationEmailController::class, '__invoke'])
-        ->middleware('throttle:6,1')
+    Route::get('/email/resend-verification', [ResendVerificationEmailController::class, 'create'])
+        ->name('verification.resend');
+    Route::post('/email/verification-notification', [ResendVerificationEmailController::class, 'store'])
+        ->middleware('throttle:3,1')
         ->name('verification.send');
+
+    Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
+        ->name('password.request');
+    Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])
+        ->middleware('throttle:3,1')
+        ->name('password.email');
+    Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])
+        ->name('password.reset');
+    Route::post('/reset-password', [ResetPasswordController::class, 'reset'])
+        ->middleware('throttle:5,1')
+        ->name('password.update');
 });
 
-// Reservasi buku oleh anggota (dari katalog).
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+
 Route::post('/catalog/{book}/reserve', [ReservationController::class, 'store'])
     ->middleware(['auth', 'member', EnsureEmailIsVerified::class, EnsureMemberIsApproved::class])->name('catalog.reserve');
 
