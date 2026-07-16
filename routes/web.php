@@ -9,6 +9,7 @@ use App\Http\Controllers\{
     BookController,
     BookReturnController,
     BorrowingController,
+    BorrowingHistoryController,
     CatalogController,
     DashboardController,
     MemberController,
@@ -80,6 +81,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('borrowings/{borrowing}/approve', [BorrowingController::class, 'approve'])->name('borrowings.approve');
     Route::post('borrowings/{borrowing}/reject', [BorrowingController::class, 'reject'])->name('borrowings.reject');
     Route::get('borrowings/{borrowing}/print', [BorrowingController::class, 'printReceipt'])->name('borrowings.print');
+
+    // Pengembalian Buku
+    Route::get('returns', [BookReturnController::class, 'index'])->name('returns.index');
+    Route::post('returns/search', [BookReturnController::class, 'search'])->name('returns.search');
     Route::get('borrowings/{borrowing}/return', [BookReturnController::class, 'create'])->name('returns.create');
     Route::post('borrowings/{borrowing}/return', [BookReturnController::class, 'store'])->name('returns.store');
+
+    // Riwayat Transaksi & Laporan
+    Route::get('borrowings-history', [BorrowingHistoryController::class, 'index'])->name('borrowings.history');
+    Route::get('borrowings-history/report', [BorrowingHistoryController::class, 'report'])->name('borrowings.report');
 });
