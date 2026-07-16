@@ -87,6 +87,11 @@ class BookController extends Controller
 
     public function destroy(Book $book)
     {
+        if ($book->borrowings()->where('status', 'borrowed')->exists()) {
+            return redirect()->route('books.index')
+                ->with('error', 'Buku tidak dapat dihapus karena masih dalam status peminjaman aktif.');
+        }
+
         if ($book->cover_image) {
             Storage::disk('public')->delete($book->cover_image);
         }
