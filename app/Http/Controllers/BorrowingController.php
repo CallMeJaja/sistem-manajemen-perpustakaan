@@ -12,9 +12,10 @@ class BorrowingController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Borrowing::with(['member', 'book']);
+        $query = Borrowing::with(['member', 'book'])
+            ->whereIn('status', ['pending', 'borrowed']);
 
-        if ($request->filled('status')) {
+        if ($request->filled('status') && $request->status !== 'all') {
             $query->where('status', $request->status);
         }
 
@@ -27,7 +28,19 @@ class BorrowingController extends Controller
             });
         }
 
-        $borrowings = $query->latest()->paginate(10)->withQueryString();
+        // Sorting
+        $sortBy = $request->input('sort_by', 'created_at');
+        $order = $request->input('order', 'desc');
+        $allowedColumns = ['borrow_date', 'due_date', 'borrow_number', 'status', 'created_at'];
+        $allowedOrder = ['asc', 'desc'];
+
+        if (in_array($sortBy, $allowedColumns) && in_array($order, $allowedOrder)) {
+            $query->orderBy($sortBy, $order);
+        } else {
+            $query->latest();
+        }
+
+        $borrowings = $query->paginate(10)->withQueryString();
 
         return view('borrowings.index', compact('borrowings'));
     }
