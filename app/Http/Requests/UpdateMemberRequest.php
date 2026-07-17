@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\IndonesianPhone;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -21,7 +22,7 @@ class UpdateMemberRequest extends FormRequest
             'member_number' => ['required', 'string', 'max:20', Rule::unique('members')->ignore($member->id)],
             'name'          => ['required', 'string', 'max:255'],
             'email'         => ['required', 'email', 'max:255', Rule::unique('members')->ignore($member->id)],
-            'phone'         => ['nullable', 'string', 'max:20'],
+            'phone'         => ['required', 'string', 'max:20', new IndonesianPhone],
             'address'       => ['nullable', 'string', 'max:500'],
             'join_date'     => ['required', 'date'],
         ];
@@ -31,6 +32,7 @@ class UpdateMemberRequest extends FormRequest
     {
         return [
             'member_number' => 'nomor anggota',
+            'phone'         => 'nomor telepon',
             'join_date'     => 'tanggal bergabung',
         ];
     }

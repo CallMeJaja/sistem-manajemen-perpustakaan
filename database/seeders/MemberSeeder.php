@@ -45,7 +45,7 @@ class MemberSeeder extends Seeder
             $memberNumber = "AGT-{$year}-{$seq}";
             $slug = strtolower(str_replace(' ', '_', $name));
             $email = str_replace(' ', '.', strtolower($name)) . '@gramediku.com';
-            $phone = '0812345' . str_pad($index + 1, 4, '0', STR_PAD_LEFT);
+            $phone = '0812' . str_pad($index + 1, 9, '0', STR_PAD_LEFT);
 
             $user = User::updateOrCreate(
                 ['email' => $email],
@@ -91,7 +91,7 @@ class MemberSeeder extends Seeder
                 'user_id'       => $demoUser->id,
                 'member_number' => "AGT-{$year}-0000",
                 'name'          => 'Anggota Demo',
-                'phone'         => '081200000000',
+                'phone'         => '081200000001',
                 'address'       => 'Jl. Ipik Gandamanah No. 0, Purwakarta',
                 'join_date'     => now()->subYear()->toDateString(),
             ]

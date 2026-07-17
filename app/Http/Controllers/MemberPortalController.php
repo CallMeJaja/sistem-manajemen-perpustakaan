@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BookReturn;
+use App\Rules\IndonesianPhone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -59,7 +60,7 @@ class MemberPortalController extends Controller
 
         $data = $request->validate([
             'name'    => ['required', 'string', 'max:255'],
-            'phone'   => ['nullable', 'string', 'max:20'],
+            'phone'   => ['required', 'string', 'max:20', new IndonesianPhone],
             'address' => ['nullable', 'string', 'max:500'],
         ]);
 

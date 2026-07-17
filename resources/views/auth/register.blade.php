@@ -11,7 +11,7 @@
 
     <x-form-field name="name" label="Nama Lengkap" required autofocus />
     <x-form-field name="email" label="Email" type="email" required />
-    <x-form-field name="phone" label="No. Telepon" />
+    <x-form-field name="phone" label="No. Telepon" type="tel" required placeholder="08xxxxxxxxxx" />
     <x-form-field name="password" label="Kata Sandi" type="password" required placeholder="Minimal 8 karakter" />
     <div class="mb-4">
         <label for="password_confirmation" class="form-label">Konfirmasi Kata Sandi</label>

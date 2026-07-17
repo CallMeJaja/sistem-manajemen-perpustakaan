@@ -55,10 +55,10 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label for="phone" class="form-label fw-medium">Telepon</label>
-                            <input type="text" id="phone" name="phone"
+                            <label for="phone" class="form-label fw-medium">Telepon <span class="text-danger">*</span></label>
+                            <input type="tel" id="phone" name="phone"
                                    class="form-control @error('phone') is-invalid @enderror"
-                                   value="{{ old('phone', $member->phone) }}">
+                                   value="{{ old('phone', $member->phone) }}" placeholder="08xxxxxxxxxx" required>
                             @error('phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
 

@@ -48,10 +48,10 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">No. Telepon</label>
-                        <input type="text" name="phone"
+                        <label class="form-label">No. Telepon <span class="text-danger">*</span></label>
+                        <input type="tel" name="phone"
                                class="form-control @error('phone') is-invalid @enderror"
-                               value="{{ old('phone', $member->phone) }}">
+                               value="{{ old('phone', $member->phone) }}" placeholder="08xxxxxxxxxx" required>
                         @error('phone')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
 

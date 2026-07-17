@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\IndonesianPhone;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterRequest extends FormRequest
@@ -17,7 +18,7 @@ class RegisterRequest extends FormRequest
         return [
             'name'     => ['required', 'string', 'max:255'],
             'email'    => ['required', 'email', 'max:255', 'unique:users,email', 'unique:members,email'],
-            'phone'    => ['nullable', 'string', 'max:20'],
+            'phone'    => ['required', 'string', 'max:20', new IndonesianPhone],
             'address'  => ['nullable', 'string', 'max:500'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
@@ -28,6 +29,7 @@ class RegisterRequest extends FormRequest
         return [
             'name'     => 'nama',
             'email'    => 'email',
+            'phone'    => 'nomor telepon',
             'password' => 'kata sandi',
         ];
     }
@@ -36,6 +38,7 @@ class RegisterRequest extends FormRequest
     {
         return [
             'email.unique' => 'Email ini sudah terdaftar. Silakan login.',
+            'phone.required' => 'Nomor telepon wajib diisi.',
         ];
     }
 }
