@@ -1,0 +1,76 @@
+name: Deploy to alwaysdata
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, xml, ctype, json, bcmath, gd, pdo, mysql, zip
+          coverage: none
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+      - run: composer install --no-progress --prefer-dist
+      - run: npm ci
+      - run: npm run build
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, xml, ctype, json, bcmath, gd, pdo, mysql, zip
+          coverage: none
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+      - run: composer install --no-dev --optimize-autoloader
+      - run: npm ci
+      - run: npm run build
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.ALWAYSDATA_SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ssh-gramediku.alwaysdata.net >> ~/.ssh/known_hosts
+
+      - name: Sync files ke alwaysdata
+        run: |
+          rsync -avz --delete \
+            --exclude='.git' \
+            --exclude='node_modules' \
+            --exclude='vendor' \
+            --exclude='.env' \
+            --exclude='storage/framework/*' \
+            --exclude='storage/logs/*' \
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
+            ./ gramediku@ssh-gramediku.alwaysdata.net:~/www/
+
+      - name: Deploy di alwaysdata
+        run: |
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no gramediku@ssh-gramediku.alwaysdata.net \
+            "cd ~/www && \
+             composer install --no-dev --optimize-autoloader && \
+             php artisan migrate --force && \
+             php artisan config:cache && \
+             php artisan route:cache && \
+             php artisan view:cache && \
+             php artisan storage:link && \
+             chmod -R 775 storage bootstrap/cache && \
+             chmod -R 775 public/storage && \
+             echo 'Deploy successful!'"
