@@ -1,34 +1,70 @@
 @startuml
 title Use Case Diagram — Admin
 
-left to right direction
+skinparam defaultFontSize 12
+skinparam packageFontSize 11
 skinparam packageStyle rectangle
+left to right direction
 
 actor "Admin" as Admin
 
 rectangle "GramediKu — Dashboard Admin" {
-  usecase "Lihat Dashboard\n(statistik & grafik)" as UC1
-  usecase "Kelola Buku\n(CRUD + Cover Image)" as UC2
-  usecase "Kelola Anggota\n(CRUD + Terima/Tolak Akun)" as UC3
-  usecase "Catat Peminjaman\n(PJ/YYYYMMDD/XXXX)" as UC4
-  usecase "Terima Reservasi\n(stok turun, dipinjam)" as UC5
-  usecase "Tolak Reservasi\n(stok tetap)" as UC6
-  usecase "Proses Pengembalian\n(+ hitung denda)" as UC7
-  usecase "Cetak Struk\nPeminjaman" as UC8
+  usecase "Melihat Dashboard" as UC1
+
+  package "Manajemen Buku" {
+    usecase "Menampilkan Daftar Buku" as UC2a
+    usecase "Menambahkan Buku" as UC2b
+    usecase "Mengubah Data Buku" as UC2c
+    usecase "Menghapus Buku" as UC2d
+  }
+
+  package "Manajemen Anggota" {
+    usecase "Menampilkan Daftar Anggota" as UC3a
+    usecase "Menambahkan Anggota" as UC3b
+    usecase "Mengubah Data Anggota" as UC3c
+    usecase "Menghapus Anggota" as UC3d
+    usecase "Menyetujui Akun Anggota" as UC3e
+    usecase "Menolak Akun Anggota" as UC3f
+  }
+
+  package "Transaksi Peminjaman" {
+    usecase "Mencatat Peminjaman Langsung" as UC4
+    usecase "Menyetujui Reservasi" as UC5
+    usecase "Menolak Reservasi" as UC6
+  }
+
+  package "Pengembalian" {
+    usecase "Memproses Pengembalian Buku" as UC7
+  }
+
+  package "Riwayat & Laporan" {
+    usecase "Menampilkan Riwayat Transaksi" as UC8a
+    usecase "Mencetak Laporan Transaksi" as UC8b
+  }
+
+  usecase "Mencetak Struk Peminjaman" as UC9
 }
 
 Admin --> UC1
-Admin --> UC2
-Admin --> UC3
+Admin --> UC2a
+Admin --> UC3a
 Admin --> UC4
 Admin --> UC5
 Admin --> UC6
 Admin --> UC7
-Admin --> UC8
+Admin --> UC8a
+Admin --> UC9
 
-UC5 ..> UC4 : <<extend>>
-UC6 ..> UC4 : <<extend>>
-UC7 ..> UC5 : <<extend>>
-UC8 ..> UC4 : <<extend>>
+UC2a ..> UC2b : <<extend>>
+UC2a ..> UC2c : <<extend>>
+UC2a ..> UC2d : <<extend>>
+UC3a ..> UC3b : <<extend>>
+UC3a ..> UC3c : <<extend>>
+UC3a ..> UC3d : <<extend>>
+UC3a ..> UC3e : <<extend>>
+UC3a ..> UC3f : <<extend>>
+UC8a ..> UC8b : <<extend>>
+UC9 ..> UC4 : <<extend>>
+UC9 ..> UC7 : <<extend>>
 
 @enduml

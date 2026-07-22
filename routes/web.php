@@ -91,4 +91,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // Riwayat Transaksi & Laporan
     Route::get('borrowings-history', [BorrowingHistoryController::class, 'index'])->name('borrowings.history');
     Route::get('borrowings-history/report', [BorrowingHistoryController::class, 'report'])->name('borrowings.report');
+
+    // Auto-query endpoints untuk autocomplete
+    Route::get('api/members/search', [MemberController::class, 'search'])->name('api.members.search');
+    Route::get('api/books/search', [BookController::class, 'search'])->name('api.books.search');
+    Route::get('api/borrowings/search', [BookReturnController::class, 'searchBorrowings'])->name('api.borrowings.search');
 });

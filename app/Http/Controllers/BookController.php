@@ -31,9 +31,52 @@ class BookController extends Controller
             }
         }
 
-        $books = $query->latest()->paginate(10)->withQueryString();
+        // Sorting
+        $sortOptions = [
+            'newest'     => ['column' => 'created_at', 'direction' => 'desc'],
+            'oldest'     => ['column' => 'created_at', 'direction' => 'asc'],
+            'title_az'   => ['column' => 'title', 'direction' => 'asc'],
+            'title_za'   => ['column' => 'title', 'direction' => 'desc'],
+            'author_az'  => ['column' => 'author', 'direction' => 'asc'],
+            'author_za'  => ['column' => 'author', 'direction' => 'desc'],
+            'stock_most' => ['column' => 'available_stock', 'direction' => 'desc'],
+            'stock_least'=> ['column' => 'available_stock', 'direction' => 'asc'],
+        ];
+
+        $sort = $request->input('sort', 'newest');
+        if (isset($sortOptions[$sort])) {
+            $query->orderBy($sortOptions[$sort]['column'], $sortOptions[$sort]['direction']);
+        } else {
+            $query->latest();
+        }
+
+        $books = $query->paginate(10)->withQueryString();
 
         return view('books.index', compact('books'));
+    }
+
+    /**
+     * API: Search books for autocomplete (multi-field: title, author, isbn, category).
+     * Only returns books with available stock > 0.
+     */
+    public function search(Request $request)
+    {
+        $q = $request->input('q', '');
+
+        if (strlen($q) < 2) {
+            return response()->json([]);
+        }
+
+        $books = Book::where('available_stock', '>', 0)
+            ->where(function ($query) use ($q) {
+                $query->where('title', 'like', "%{$q}%")
+                      ->orWhere('author', 'like', "%{$q}%")
+                      ->orWhere('isbn', 'like', "%{$q}%")
+                      ->orWhere('category', 'like', "%{$q}%");
+            })->limit(10)
+              ->get(['id', 'title', 'author', 'isbn', 'category', 'available_stock']);
+
+        return response()->json($books);
     }
 
     public function create()

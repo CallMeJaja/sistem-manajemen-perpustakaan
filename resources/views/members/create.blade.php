@@ -25,7 +25,7 @@
                             <label for="member_number" class="form-label fw-medium">Nomor Anggota <span class="text-danger">*</span></label>
                             <input type="text" id="member_number" name="member_number"
                                    class="form-control @error('member_number') is-invalid @enderror"
-                                   value="{{ old('member_number', $nextNumber) }}" required>
+                                   value="{{ old('member_number', $nextNumber) }}" readonly required>
                             @error('member_number') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
 
@@ -33,7 +33,7 @@
                             <label for="join_date" class="form-label fw-medium">Tanggal Bergabung <span class="text-danger">*</span></label>
                             <input type="date" id="join_date" name="join_date"
                                    class="form-control @error('join_date') is-invalid @enderror"
-                                   value="{{ old('join_date', date('Y-m-d')) }}" required>
+                                   value="{{ old('join_date', date('Y-m-d')) }}" readonly required>
                             @error('join_date') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
 
@@ -84,9 +84,10 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const joinDateInput = document.getElementById('join_date');
-        const today = new Date().toISOString().split('T')[0];
+        var joinDateInput = document.getElementById('join_date');
+        var today = new Date().toISOString().split('T')[0];
         joinDateInput.setAttribute('max', today);
+        joinDateInput.setAttribute('min', '2000-01-01');
     });
 </script>
 @endpush

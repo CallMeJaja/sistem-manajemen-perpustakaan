@@ -93,4 +93,14 @@
         </div>
     </div>
 </div>
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var returnDateInput = document.getElementById('return_date');
+        var today = new Date().toISOString().split('T')[0];
+        returnDateInput.setAttribute('max', today);
+        returnDateInput.setAttribute('min', "{{ $borrowing->borrow_date->format('Y-m-d') }}");
+    });
+</script>
+@endpush
 @endsection

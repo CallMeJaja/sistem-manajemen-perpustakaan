@@ -14,13 +14,23 @@
 
 <div class="card border-0 shadow-sm">
     <div class="card-body">
-        <form method="GET" action="{{ route('members.index') }}" class="row g-2 mb-3">
-            <div class="col-md-6">
-                <x-search-bar placeholder="Cari nama, email, nomor anggota..." />
+        <form method="GET" action="{{ route('members.index') }}" class="row g-2 mb-3 align-items-end">
+            <div class="col-md-4">
+                <x-search-bar placeholder="Cari nama, email, nomor anggota..." label="Cari" />
+            </div>
+            <div class="col-md-3">
+                <label for="sort" class="form-label small text-muted mb-0">Urutkan</label>
+                <select name="sort" id="sort" class="form-select" onchange="this.form.submit()">
+                    <option value="newest" @selected(request('sort', 'newest') === 'newest')>Paling Baru</option>
+                    <option value="oldest" @selected(request('sort') === 'oldest')>Paling Lama</option>
+                    <option value="name_az" @selected(request('sort') === 'name_az')>Nama A-Z</option>
+                    <option value="name_za" @selected(request('sort') === 'name_za')>Nama Z-A</option>
+                    <option value="member_number" @selected(request('sort') === 'member_number')>Nomor Anggota</option>
+                </select>
             </div>
             <div class="col-auto">
                 <button type="submit" class="btn btn-outline-primary">Cari</button>
-                @if(request()->filled('search'))
+                @if(request()->hasAny(['search', 'sort']))
                     <a href="{{ route('members.index') }}" class="btn btn-outline-secondary">Reset</a>
                 @endif
             </div>

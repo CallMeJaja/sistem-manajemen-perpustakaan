@@ -27,13 +27,18 @@ class BorrowingHistoryController extends Controller
         }
 
         // Sorting
-        $sortBy = $request->input('sort_by', 'created_at');
-        $order = $request->input('order', 'desc');
-        $allowedColumns = ['borrow_date', 'due_date', 'borrow_number', 'status', 'created_at'];
-        $allowedOrder = ['asc', 'desc'];
+        $sortOptions = [
+            'newest'        => ['column' => 'created_at', 'direction' => 'desc'],
+            'oldest'        => ['column' => 'created_at', 'direction' => 'asc'],
+            'due_soonest'   => ['column' => 'due_date', 'direction' => 'asc'],
+            'due_latest'    => ['column' => 'due_date', 'direction' => 'desc'],
+            'borrow_newest' => ['column' => 'borrow_date', 'direction' => 'desc'],
+            'borrow_oldest' => ['column' => 'borrow_date', 'direction' => 'asc'],
+        ];
 
-        if (in_array($sortBy, $allowedColumns) && in_array($order, $allowedOrder)) {
-            $query->orderBy($sortBy, $order);
+        $sort = $request->input('sort', 'newest');
+        if (isset($sortOptions[$sort])) {
+            $query->orderBy($sortOptions[$sort]['column'], $sortOptions[$sort]['direction']);
         } else {
             $query->latest();
         }

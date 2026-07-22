@@ -17,39 +17,38 @@
     <div class="col-lg-7">
         <div class="card border-0 shadow-sm">
             <div class="card-body p-4">
-                <form method="POST" action="{{ route('borrowings.store') }}">
+                <form method="POST" action="{{ route('borrowings.store') }}" id="borrowing-form">
                     @csrf
 
                     <div class="row g-3">
                         <div class="col-12">
-                            <label for="member_id" class="form-label fw-medium">Anggota <span class="text-danger">*</span></label>
-                            <select id="member_id" name="member_id"
-                                    class="form-select @error('member_id') is-invalid @enderror" required>
-                                <option value="">— Pilih Anggota —</option>
-                                @foreach ($members as $member)
-                                    <option value="{{ $member->id }}" @selected(old('member_id') == $member->id)>
-                                        {{ $member->member_number }} — {{ $member->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('member_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            <x-autocomplete
+                                name="member_id"
+                                id="member_id"
+                                label="Anggota"
+                                placeholder="Ketik nama, nomor, atau email anggota..."
+                                searchUrl="{{ route('api.members.search') }}"
+                                :required="true"
+                                :oldValue="old('member_id')"
+                            />
+                            @error('member_id')
+                                <div class="text-danger small mt-1">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="col-12">
-                            <label for="book_id" class="form-label fw-medium">Buku <span class="text-danger">*</span></label>
-                            <select id="book_id" name="book_id"
-                                    class="form-select @error('book_id') is-invalid @enderror" required>
-                                <option value="">— Pilih Buku —</option>
-                                @foreach ($books as $book)
-                                    <option value="{{ $book->id }}" @selected(old('book_id') == $book->id)>
-                                        {{ $book->title }} — {{ $book->author }} (Stok: {{ $book->available_stock }})
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('book_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                            @if ($books->isEmpty())
-                                <div class="form-text text-danger">Tidak ada buku yang tersedia saat ini.</div>
-                            @endif
+                            <x-autocomplete
+                                name="book_id"
+                                id="book_id"
+                                label="Buku"
+                                placeholder="Ketik judul, pengarang, atau ISBN buku..."
+                                searchUrl="{{ route('api.books.search') }}"
+                                :required="true"
+                                :oldValue="old('book_id')"
+                            />
+                            @error('book_id')
+                                <div class="text-danger small mt-1">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="col-md-6">
@@ -70,7 +69,7 @@
                     </div>
 
                     <div class="d-flex gap-2 mt-4">
-                        <button type="submit" class="btn btn-primary" {{ $books->isEmpty() ? 'disabled' : '' }}>
+                        <button type="submit" class="btn btn-primary">
                             <i class="bi bi-floppy me-1"></i>Simpan
                         </button>
                         <a href="{{ route('borrowings.index') }}" class="btn btn-outline-secondary">Batal</a>
@@ -80,32 +79,24 @@
         </div>
     </div>
 </div>
+
 @push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const borrowDateInput = document.getElementById('borrow_date');
-        const dueDateInput = document.getElementById('due_date');
-
-        // Set min borrow_date to today
-        const today = new Date().toISOString().split('T')[0];
+    document.addEventListener('DOMContentLoaded', function () {
+        var borrowDateInput = document.getElementById('borrow_date');
+        var dueDateInput = document.getElementById('due_date');
+        var today = new Date().toISOString().split('T')[0];
         borrowDateInput.setAttribute('min', today);
 
         borrowDateInput.addEventListener('change', function() {
-            const borrowDate = new Date(this.value);
+            var borrowDate = new Date(this.value);
             if (isNaN(borrowDate.getTime())) return;
-
-            // Automatically set due_date to +7 days
-            const dueDate = new Date(borrowDate);
+            var dueDate = new Date(borrowDate);
             dueDate.setDate(dueDate.getDate() + 7);
-
-            const formattedDueDate = dueDate.toISOString().split('T')[0];
-            dueDateInput.value = formattedDueDate;
-
-            // Set min due_date to borrowDate
+            dueDateInput.value = dueDate.toISOString().split('T')[0];
             dueDateInput.setAttribute('min', this.value);
         });
 
-        // Ensure due_date min is also set on page load
         if (borrowDateInput.value) {
             dueDateInput.setAttribute('min', borrowDateInput.value);
         }

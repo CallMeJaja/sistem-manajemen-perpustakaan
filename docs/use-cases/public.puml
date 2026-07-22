@@ -1,24 +1,31 @@
 @startuml
 title Use Case Diagram — Public (Non-Login)
 
-left to right direction
+skinparam defaultFontSize 12
+skinparam packageFontSize 11
 skinparam packageStyle rectangle
+left to right direction
 
 actor "Pengunjung\n(Public)" as Public
 
 rectangle "GramediKu — Katalog Publik" {
-  usecase "Melihat Katalog Buku" as UC1
-  usecase "Mencari Buku\n(judul/penulis/kategori)" as UC2
-  usecase "Melihat Detail Buku\n(stok, lokasi, info)" as UC3
-  usecase "Login" as UC4
-  usecase "Registrasi\nMember Baru" as UC5
+  package "Katalog" {
+    usecase "Melihat Katalog Buku" as UC1
+    usecase "Mencari Buku" as UC2
+    usecase "Melihat Detail Buku" as UC3
+  }
+
+  package "Autentikasi" {
+    usecase "Melakukan Log Masuk" as UC4
+    usecase "Melakukan Pendaftaran" as UC5
+    usecase "Mengatur Ulang Password" as UC6
+  }
 }
 
 Public --> UC1
-Public --> UC2
-Public --> UC3
 Public --> UC4
 Public --> UC5
+Public --> UC6
 
 UC2 ..> UC1 : <<extend>>
 UC3 ..> UC1 : <<extend>>

@@ -11,14 +11,16 @@
                 <p>Temukan buku favoritmu dari koleksi perpustakaan digital GramediKu.</p>
 
                 <div class="search-bar-hero">
-                    <form method="GET" action="{{ route('catalog.index') }}" class="row g-2">
+                    <form method="GET" action="{{ route('catalog.index') }}" class="row g-2 align-items-end">
                         <div class="col-md-4">
-                            <input type="text" name="search" class="form-control"
+                            <label for="catalog-search" class="form-label small text-muted mb-0">Cari</label>
+                            <input type="text" name="search" id="catalog-search" class="form-control"
                                    placeholder="Cari judul, pengarang..."
                                    value="{{ request('search') }}">
                         </div>
                         <div class="col-md-3">
-                            <select name="category" class="form-select">
+                            <label for="category" class="form-label small text-muted mb-0">Kategori</label>
+                            <select name="category" id="category" class="form-select">
                                 <option value="">Semua Kategori</option>
                                 @foreach ($categories as $cat)
                                     <option value="{{ $cat }}" @selected(request('category') === $cat)>{{ $cat }}</option>
@@ -26,7 +28,8 @@
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <select name="availability" class="form-select">
+                            <label for="catalog-availability" class="form-label small text-muted mb-0">Stok</label>
+                            <select name="availability" id="catalog-availability" class="form-select">
                                 <option value="">Semua Stok</option>
                                 <option value="available" @selected(request('availability') === 'available')>Tersedia</option>
                                 <option value="unavailable" @selected(request('availability') === 'unavailable')>Habis</option>
@@ -66,8 +69,8 @@
             @if(request()->filled('search'))<input type="hidden" name="search" value="{{ request('search') }}">@endif
             @if(request()->filled('category'))<input type="hidden" name="category" value="{{ request('category') }}">@endif
             @if(request()->filled('availability'))<input type="hidden" name="availability" value="{{ request('availability') }}">@endif
-            <label class="text-muted small text-nowrap">Tampil:</label>
-            <select name="per_page" class="form-select form-select-sm" style="min-width: 70%;" onchange="this.form.submit()">
+            <label for="per_page" class="text-muted small text-nowrap">Tampil:</label>
+            <select name="per_page" id="per_page" class="form-select form-select-sm" style="min-width: 70%;" onchange="this.form.submit()">
                 @foreach([10, 15, 20, 25, 50, 100] as $n)
                     <option value="{{ $n }}" @selected(request('per_page', 12) == $n)>{{ $n }}</option>
                 @endforeach

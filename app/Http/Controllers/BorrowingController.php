@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBorrowingRequest;
 use App\Models\Book;
 use App\Models\Borrowing;
-use App\Models\Member;
 use Illuminate\Http\Request;
 
 class BorrowingController extends Controller
@@ -29,13 +28,18 @@ class BorrowingController extends Controller
         }
 
         // Sorting
-        $sortBy = $request->input('sort_by', 'created_at');
-        $order = $request->input('order', 'desc');
-        $allowedColumns = ['borrow_date', 'due_date', 'borrow_number', 'status', 'created_at'];
-        $allowedOrder = ['asc', 'desc'];
+        $sortOptions = [
+            'newest'        => ['column' => 'created_at', 'direction' => 'desc'],
+            'oldest'        => ['column' => 'created_at', 'direction' => 'asc'],
+            'due_soonest'   => ['column' => 'due_date', 'direction' => 'asc'],
+            'due_latest'    => ['column' => 'due_date', 'direction' => 'desc'],
+            'borrow_newest' => ['column' => 'borrow_date', 'direction' => 'desc'],
+            'borrow_oldest' => ['column' => 'borrow_date', 'direction' => 'asc'],
+        ];
 
-        if (in_array($sortBy, $allowedColumns) && in_array($order, $allowedOrder)) {
-            $query->orderBy($sortBy, $order);
+        $sort = $request->input('sort', 'newest');
+        if (isset($sortOptions[$sort])) {
+            $query->orderBy($sortOptions[$sort]['column'], $sortOptions[$sort]['direction']);
         } else {
             $query->latest();
         }
@@ -47,10 +51,7 @@ class BorrowingController extends Controller
 
     public function create()
     {
-        $members = Member::orderBy('name')->get();
-        $books   = Book::where('available_stock', '>', 0)->orderBy('title')->get();
-
-        return view('borrowings.create', compact('members', 'books'));
+        return view('borrowings.create');
     }
 
     public function store(StoreBorrowingRequest $request)

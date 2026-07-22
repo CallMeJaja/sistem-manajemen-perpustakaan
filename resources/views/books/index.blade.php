@@ -14,20 +14,34 @@
 
 <div class="card border-0 shadow-sm">
     <div class="card-body">
-        <form method="GET" action="{{ route('books.index') }}" class="row g-2 mb-3">
-            <div class="col-md-6">
-                <x-search-bar placeholder="Cari judul, pengarang, kategori..." />
+        <form method="GET" action="{{ route('books.index') }}" class="row g-2 mb-3 align-items-end">
+            <div class="col-md-4">
+                <x-search-bar placeholder="Cari judul, pengarang, kategori..." label="Cari" />
             </div>
-            <div class="col-md-3">
-                <select name="availability" class="form-select">
+            <div class="col-md-2">
+                <label for="availability" class="form-label small text-muted mb-0">Stok</label>
+                <select name="availability" id="availability" class="form-select">
                     <option value="">Semua Stok</option>
                     <option value="available" @selected(request('availability') === 'available')>Tersedia</option>
                     <option value="unavailable" @selected(request('availability') === 'unavailable')>Habis</option>
                 </select>
             </div>
+            <div class="col-md-3">
+                <label for="sort" class="form-label small text-muted mb-0">Urutkan</label>
+                <select name="sort" id="sort" class="form-select" onchange="this.form.submit()">
+                    <option value="newest" @selected(request('sort', 'newest') === 'newest')>Paling Baru</option>
+                    <option value="oldest" @selected(request('sort') === 'oldest')>Paling Lama</option>
+                    <option value="title_az" @selected(request('sort') === 'title_az')>Judul A-Z</option>
+                    <option value="title_za" @selected(request('sort') === 'title_za')>Judul Z-A</option>
+                    <option value="author_az" @selected(request('sort') === 'author_az')>Pengarang A-Z</option>
+                    <option value="author_za" @selected(request('sort') === 'author_za')>Pengarang Z-A</option>
+                    <option value="stock_most" @selected(request('sort') === 'stock_most')>Stok Terbanyak</option>
+                    <option value="stock_least" @selected(request('sort') === 'stock_least')>Stok Paling Sedikit</option>
+                </select>
+            </div>
             <div class="col-auto">
                 <button type="submit" class="btn btn-outline-primary">Filter</button>
-                @if(request()->hasAny(['search', 'availability']))
+                @if(request()->hasAny(['search', 'availability', 'sort']))
                     <a href="{{ route('books.index') }}" class="btn btn-outline-secondary">Reset</a>
                 @endif
             </div>

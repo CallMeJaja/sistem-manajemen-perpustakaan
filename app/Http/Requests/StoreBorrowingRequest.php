@@ -16,8 +16,8 @@ class StoreBorrowingRequest extends FormRequest
         return [
             'member_id'   => ['required', 'exists:members,id'],
             'book_id'     => ['required', 'exists:books,id'],
-            'borrow_date' => ['required', 'date'],
-            'due_date'    => ['required', 'date', 'after:borrow_date'],
+            'borrow_date' => ['required', 'date', 'before_or_equal:today', 'after_or_equal:today'],
+            'due_date'    => ['required', 'date', 'after:borrow_date', 'before_or_equal:' . now()->addDays(30)->toDateString()],
         ];
     }
 

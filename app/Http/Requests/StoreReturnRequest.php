@@ -14,7 +14,7 @@ class StoreReturnRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'return_date' => ['required', 'date'],
+            'return_date' => ['required', 'date', 'before_or_equal:today', 'after_or_equal:2000-01-01'],
             'notes'       => ['nullable', 'string', 'max:500'],
         ];
     }

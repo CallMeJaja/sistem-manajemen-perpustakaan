@@ -33,8 +33,8 @@
                     @method('PUT')
 
                     <div class="mb-3">
-                        <label class="form-label">Nama Lengkap</label>
-                        <input type="text" name="name"
+                        <label for="name" class="form-label">Nama Lengkap</label>
+                        <input type="text" name="name" id="name"
                                class="form-control @error('name') is-invalid @enderror"
                                value="{{ old('name', $member->name) }}" required>
                         @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
@@ -42,22 +42,22 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-control" value="{{ $member->email }}" disabled>
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" id="email" class="form-control" value="{{ $member->email }}" disabled>
                         <div class="form-text">Email tidak dapat diubah karena digunakan sebagai akun login.</div>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">No. Telepon <span class="text-danger">*</span></label>
-                        <input type="tel" name="phone"
+                        <label for="phone" class="form-label">No. Telepon <span class="text-danger">*</span></label>
+                        <input type="tel" name="phone" id="phone"
                                class="form-control @error('phone') is-invalid @enderror"
                                value="{{ old('phone', $member->phone) }}" placeholder="08xxxxxxxxxx" required>
                         @error('phone')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Alamat</label>
-                        <textarea name="address" rows="3"
+                        <label for="address" class="form-label">Alamat</label>
+                        <textarea name="address" id="address" rows="3"
                                   class="form-control @error('address') is-invalid @enderror">{{ old('address', $member->address) }}</textarea>
                         @error('address')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>

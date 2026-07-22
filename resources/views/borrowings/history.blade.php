@@ -16,24 +16,23 @@
     <div class="card-body">
         <form method="GET" action="{{ route('borrowings.history') }}" class="row g-2 mb-3 align-items-end">
             <div class="col-md-4">
+                <label for="history-search" class="form-label small text-muted mb-0">Cari</label>
                 <div class="input-group">
                     <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
-                    <input type="text" name="search" class="form-control border-start-0"
+                    <input type="text" name="search" id="history-search" class="form-control border-start-0"
                            placeholder="Cari nomor, anggota, atau judul buku..."
                            value="{{ request('search') }}">
                 </div>
             </div>
             <div class="col-md-2">
-                <select name="sort_by" class="form-select" onchange="this.form.submit()">
-                    <option value="created_at" @selected(request('sort_by', 'created_at') === 'created_at')>Terbaru</option>
-                    <option value="borrow_date" @selected(request('sort_by') === 'borrow_date')>Tgl Pinjam</option>
-                    <option value="borrow_number" @selected(request('sort_by') === 'borrow_number')>No. Transaksi</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <select name="order" class="form-select" onchange="this.form.submit()">
-                    <option value="desc" @selected(request('order', 'desc') === 'desc')>Terbaru → Terlama</option>
-                    <option value="asc" @selected(request('order') === 'asc')>Terlama → Terbaru</option>
+                <label for="sort" class="form-label small text-muted mb-0">Urutkan</label>
+                <select name="sort" id="sort" class="form-select" onchange="this.form.submit()">
+                    <option value="newest" @selected(request('sort', 'newest') === 'newest')>Paling Baru</option>
+                    <option value="oldest" @selected(request('sort') === 'oldest')>Paling Lama</option>
+                    <option value="due_soonest" @selected(request('sort') === 'due_soonest')>Batas Kembali Paling Dekat</option>
+                    <option value="due_latest" @selected(request('sort') === 'due_latest')>Batas Kembali Paling Jauh</option>
+                    <option value="borrow_newest" @selected(request('sort') === 'borrow_newest')>Tanggal Pinjam Paling Baru</option>
+                    <option value="borrow_oldest" @selected(request('sort') === 'borrow_oldest')>Tanggal Pinjam Paling Lama</option>
                 </select>
             </div>
             <div class="col-auto">

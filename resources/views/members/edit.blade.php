@@ -81,4 +81,14 @@
         </div>
     </div>
 </div>
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var joinDateInput = document.getElementById('join_date');
+        var today = new Date().toISOString().split('T')[0];
+        joinDateInput.setAttribute('max', today);
+        joinDateInput.setAttribute('min', '2000-01-01');
+    });
+</script>
+@endpush
 @endsection

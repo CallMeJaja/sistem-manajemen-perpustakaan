@@ -26,19 +26,42 @@ class MemberController extends Controller
             });
         }
 
-        $members = $query->latest()->paginate(10)->withQueryString();
+        // Sorting
+        $sortOptions = [
+            'newest'       => ['column' => 'created_at', 'direction' => 'desc'],
+            'oldest'       => ['column' => 'created_at', 'direction' => 'asc'],
+            'name_az'      => ['column' => 'name', 'direction' => 'asc'],
+            'name_za'      => ['column' => 'name', 'direction' => 'desc'],
+            'member_number'=> ['column' => 'member_number', 'direction' => 'asc'],
+        ];
+
+        $sort = $request->input('sort', 'newest');
+        if (isset($sortOptions[$sort])) {
+            $query->orderBy($sortOptions[$sort]['column'], $sortOptions[$sort]['direction']);
+        } else {
+            $query->latest();
+        }
+
+        $members = $query->paginate(10)->withQueryString();
 
         return view('members.index', compact('members'));
     }
 
     public function create()
     {
-        // Get the latest member number that is numeric
-        $latest = Member::whereRaw('member_number REGEXP "^[0-9]+$"')
-            ->orderBy('member_number', 'desc')
+        $year = now()->format('Y');
+        $prefix = "AGT-{$year}-";
+
+        $latest = Member::where('member_number', 'like', "{$prefix}%")
+            ->orderByRaw("CAST(SUBSTRING_INDEX(member_number, '-', -1) AS UNSIGNED) DESC")
             ->first();
 
-        $nextNumber = $latest ? (int)$latest->member_number + 1 : 202404001;
+        if ($latest) {
+            $lastSeq = (int) substr($latest->member_number, -4);
+            $nextNumber = $prefix . str_pad($lastSeq + 1, 4, '0', STR_PAD_LEFT);
+        } else {
+            $nextNumber = $prefix . '0001';
+        }
 
         return view('members.create', compact('nextNumber'));
     }
@@ -82,6 +105,27 @@ class MemberController extends Controller
         $member->delete();
 
         return redirect()->route('members.index')->with('success', 'Anggota berhasil dihapus.');
+    }
+
+    /**
+     * API: Search members for autocomplete (multi-field: member_number, name, email, phone).
+     */
+    public function search(Request $request)
+    {
+        $q = $request->input('q', '');
+
+        if (strlen($q) < 2) {
+            return response()->json([]);
+        }
+
+        $members = Member::where(function ($query) use ($q) {
+            $query->where('member_number', 'like', "%{$q}%")
+                  ->orWhere('name', 'like', "%{$q}%")
+                  ->orWhere('email', 'like', "%{$q}%")
+                  ->orWhere('phone', 'like', "%{$q}%");
+        })->limit(10)->get(['id', 'member_number', 'name', 'email', 'phone']);
+
+        return response()->json($members);
     }
 
     /**

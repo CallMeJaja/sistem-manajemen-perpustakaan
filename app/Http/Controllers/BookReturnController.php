@@ -23,7 +23,24 @@ class BookReturnController extends Controller
             });
         }
 
-        $borrowings = $query->latest()->paginate(10)->withQueryString();
+        // Sorting
+        $sortOptions = [
+            'newest'        => ['column' => 'created_at', 'direction' => 'desc'],
+            'oldest'        => ['column' => 'created_at', 'direction' => 'asc'],
+            'due_soonest'   => ['column' => 'due_date', 'direction' => 'asc'],
+            'due_latest'    => ['column' => 'due_date', 'direction' => 'desc'],
+            'borrow_newest' => ['column' => 'borrow_date', 'direction' => 'desc'],
+            'borrow_oldest' => ['column' => 'borrow_date', 'direction' => 'asc'],
+        ];
+
+        $sort = $request->input('sort', 'newest');
+        if (isset($sortOptions[$sort])) {
+            $query->orderBy($sortOptions[$sort]['column'], $sortOptions[$sort]['direction']);
+        } else {
+            $query->latest();
+        }
+
+        $borrowings = $query->paginate(10)->withQueryString();
 
         return view('returns.index', compact('borrowings'));
     }
@@ -41,6 +58,30 @@ class BookReturnController extends Controller
         }
 
         return redirect()->route('returns.create', $borrowing);
+    }
+
+    /**
+     * API: Search active borrowings for autocomplete (multi-field: borrow_number, member name, book title).
+     * Only returns borrowings with status 'borrowed'.
+     */
+    public function searchBorrowings(Request $request)
+    {
+        $q = $request->input('q', '');
+
+        if (strlen($q) < 2) {
+            return response()->json([]);
+        }
+
+        $borrowings = Borrowing::with(['member:id,member_number,name', 'book:id,title,author'])
+            ->where('status', 'borrowed')
+            ->where(function ($query) use ($q) {
+                $query->where('borrow_number', 'like', "%{$q}%")
+                      ->orWhereHas('member', fn($sq) => $sq->where('name', 'like', "%{$q}%")->orWhere('member_number', 'like', "%{$q}%"))
+                      ->orWhereHas('book', fn($sq) => $sq->where('title', 'like', "%{$q}%"));
+            })->limit(10)
+              ->get(['id', 'borrow_number', 'member_id', 'book_id', 'borrow_date', 'due_date']);
+
+        return response()->json($borrowings);
     }
 
     public function create(Borrowing $borrowing)
