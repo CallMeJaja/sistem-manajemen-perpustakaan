@@ -352,6 +352,10 @@ body {
 
 .search-bar-hero .btn { min-width: 90px; }
 
+.search-bar-hero .form-label {
+    color: rgba(255,255,255,0.8);
+}
+
 /* Book cards — public catalog */
 .book-card-public {
     border-radius: 12px;

@@ -19,7 +19,7 @@
                 <x-search-bar placeholder="Cari judul, pengarang, kategori..." label="Cari" />
             </div>
             <div class="col-md-2">
-                <label for="availability" class="form-label small text-muted mb-0">Stok</label>
+                <label for="availability" class="form-label fw-medium mb-0">Stok</label>
                 <select name="availability" id="availability" class="form-select">
                     <option value="">Semua Stok</option>
                     <option value="available" @selected(request('availability') === 'available')>Tersedia</option>
@@ -27,7 +27,7 @@
                 </select>
             </div>
             <div class="col-md-3">
-                <label for="sort" class="form-label small text-muted mb-0">Urutkan</label>
+                <label for="sort" class="form-label fw-medium mb-0">Urutkan</label>
                 <select name="sort" id="sort" class="form-select" onchange="this.form.submit()">
                     <option value="newest" @selected(request('sort', 'newest') === 'newest')>Paling Baru</option>
                     <option value="oldest" @selected(request('sort') === 'oldest')>Paling Lama</option>

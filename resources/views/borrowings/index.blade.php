@@ -42,7 +42,7 @@
                 </div>
             </div>
             <div class="col-md-2">
-                <label for="sort" class="form-label small text-muted mb-0">Urutkan</label>
+                <label for="sort" class="form-label fw-medium mb-0">Urutkan</label>
                 <select name="sort" id="sort" class="form-select" onchange="this.form.submit()">
                     <option value="newest" @selected(request('sort', 'newest') === 'newest')>Paling Baru</option>
                     <option value="oldest" @selected(request('sort') === 'oldest')>Paling Lama</option>

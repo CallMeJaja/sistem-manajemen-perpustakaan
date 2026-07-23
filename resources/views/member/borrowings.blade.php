@@ -9,7 +9,7 @@
     <div class="card-body">
         <form method="GET" action="{{ route('member.borrowings') }}" class="row g-2 mb-3">
             <div class="col-md-4">
-                <label for="status" class="form-label small text-muted mb-0">Status</label>
+                <label for="status" class="form-label fw-medium mb-0">Status</label>
                 <select name="status" id="status" class="form-select" onchange="this.form.submit()">
                     <option value="">Semua Status</option>
                     <option value="pending" @selected(request('status') === 'pending')>Menunggu</option>

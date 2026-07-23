@@ -13,13 +13,13 @@
                 <div class="search-bar-hero">
                     <form method="GET" action="{{ route('catalog.index') }}" class="row g-2 align-items-end">
                         <div class="col-md-4">
-                            <label for="catalog-search" class="form-label small text-muted mb-0">Cari</label>
+                            <label for="catalog-search" class="form-label small mb-0">Cari</label>
                             <input type="text" name="search" id="catalog-search" class="form-control"
                                    placeholder="Cari judul, pengarang..."
                                    value="{{ request('search') }}">
                         </div>
                         <div class="col-md-3">
-                            <label for="category" class="form-label small text-muted mb-0">Kategori</label>
+                            <label for="category" class="form-label small mb-0">Kategori</label>
                             <select name="category" id="category" class="form-select">
                                 <option value="">Semua Kategori</option>
                                 @foreach ($categories as $cat)
@@ -28,7 +28,7 @@
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <label for="catalog-availability" class="form-label small text-muted mb-0">Stok</label>
+                            <label for="catalog-availability" class="form-label small mb-0">Stok</label>
                             <select name="availability" id="catalog-availability" class="form-select">
                                 <option value="">Semua Stok</option>
                                 <option value="available" @selected(request('availability') === 'available')>Tersedia</option>
